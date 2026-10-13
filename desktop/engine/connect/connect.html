@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>topcatswap · ligar carteira</title>
+<link rel="stylesheet" href="connect.css">
+</head>
+<body>
+<main class="wrap">
+<header class="head">
+<img src="logo.png" alt="" width="48" height="48">
+<div><div class="brand">topcat<span>swap</span></div><div class="sub">Ligação à carteira do navegador</div></div>
+</header>
+
+<section class="card" aria-live="polite">
+<h1 id="title">A procurar a carteira…</h1>
+<p id="lead" class="lead">A procurar extensões de carteira neste navegador.</p>
+<div id="choices" class="choices"></div>
+<button type="button" id="connect" class="btn primary" hidden>Ligar</button>
+<div id="status" class="status" hidden>
+<div class="row"><span>Carteira</span><b id="s-wallet">—</b></div>
+<div class="row"><span>Conta</span><b id="s-account" class="mono">—</b></div>
+<div class="row"><span>Rede</span><b id="s-chain">—</b></div>
+</div>
+<p id="error" class="error" role="alert" hidden></p>
+</section>
+
+<section class="card small">
+<h2>Mantém esta página aberta</h2>
+<p>Enquanto usas o topcatswap, esta página passa os pedidos da app à carteira. Cada transação é confirmada por ti na janela da extensão. Podes minimizar o navegador, mas não feches este separador.</p>
+<ol id="log" class="log"></ol>
+</section>
+<p class="foot">Página local (127.0.0.1): só funciona neste computador e enquanto a app estiver aberta.</p>
+</main>
+<script src="connect.js"></script>
+</body>
+</html>

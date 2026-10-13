@@ -1,0 +1,7 @@
+name = "topcatswap-relay"
+main = "worker.mjs"
+compatibility_date = "2024-09-23"
+
+# Recomendado: só o teu site pode usar o relay.
+# [vars]
+# ALLOWED_ORIGINS = "https://<utilizador>.github.io"

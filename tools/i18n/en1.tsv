@@ -1,0 +1,685 @@
+0	Missing environment variable GRAPH_API_KEY.
+1	Run the bot without arguments to see how to set it.
+2	no V4 subgraph for this network
+6	Arbitrum has no public mempool: the sequencer orders transactions
+7	in order of arrival, so bots cannot see them before they are included
+11	PulseChain has no Uniswap with real liquidity (memes live on PulseX,
+12	another DEX) and there is no known anti-sandwich private RPC.
+13	Robinhood Chain has several published Universal Routers and a modified router
+14	with a different V4 swap format; the addresses must be confirmed on-chain before use.
+15	Arc uses USDC as its gas token and has not been validated in this bot yet;
+16	the addresses must be confirmed on-chain before use.
+17	invalid --chain:
+18	(use 1 Ethereum, 2 Arbitrum, 3 BSC, 4 PulseChain, 5 Robinhood, 6 Arc).
+19	is not supported yet:
+20	The RPC for
+21	is not responding (
+22	Set another one with the variable
+23	The configured RPC belongs to network
+24	, not
+25	Check the variable
+26	normal network fee
+27	fast, next block, +10%
+28	faster, next block, +30%
+29	You can use the contract address (CA) or these names:
+30	The names change with the network (e.g. on BSC they are BNB, WBNB and USDC).
+31	NETWORKS (--chain=N, in any mode)
+32	not supported yet
+33	--protect ignored (no public mempool)
+34	Default: --chain=1 (Ethereum). Also accepts the name or the
+35	POOL MODE  (read-only, never signs anything)
+36	Without AMOUNT_IN it shows the 3 largest pools by TVL (V2 + V3 + V4),
+37	with fee, TVL and liquidity, and adds the best one of each version
+38	that is not in the top 3 (up to 5 pools).
+39	With AMOUNT_IN it simulates the trade on each pool and also shows:
+40	price impact, spot → execution difference, expected amount,
+41	gas cost in ETH and USD, and at the end the BEST EXECUTION
+42	(the pool that delivers the most tokens).
+43	ETH and WETH are treated as equivalent in this mode.
+44	Options:
+45	--versions=v2       V2 only (or v3, v4, or combinations: --versions=v2,v3)
+46	SWAP MODE  (executes the trade, signed on the Ledger)
+47	node topcatswap.js SWAP TOKEN_IN TOKEN_OUT AMOUNT_IN [options]
+48	TOKEN_IN    token you sell    (
+49	or contract address)
+50	TOKEN_OUT   token you receive (
+51	AMOUNT_IN   amount of TOKEN_IN to sell (e.g. 0.01)
+52	--index=N           Ledger wallet N (default 0;
+53	see the indexes with: node topcatswap.js WALLET)
+54	--from=0xADDRESS    looks for this address on the Ledger
+55	--wallet=NAME       uses an IMPORTED wallet (name or address;
+56	list them with: node topcatswap.js WALLET IMPORTED).
+57	Asks for that wallet's password. Without --wallet it uses the Ledger.
+58	--slippage=0.5      tolerance in %, from 0.01 to 50 (default 0.5)
+59	--fee=1             1 = NORMAL  normal network fee (default)
+60	--fee=2             2 = FAST    next block, +10% on the gas price
+61	--fee=3             3 = FASTER  next block, +30% on the gas price
+62	--protect           protection against sandwich and frontrun:
+63	private sending via MEV Blocker (does not go through
+64	the public mempool), 3 min deadline and a new quote
+65	right before the swap
+66	--protect=flashbots uses Flashbots Protect instead of MEV Blocker
+67	--protect=48club. On Arbitrum it is ignored with a warning.
+68	--chain=N           network (see NETWORKS below; default Ethereum)
+69	--versions=v2       only considers V2 pools (or v3, v4, or v2,v3...)
+70	--path=44'/60'/0'/0/0   explicit derivation path
+71	What happens:
+72	1. Same analysis as POOL mode; picks the pool that delivers the most tokens.
+73	2. Reads the address on the Ledger and checks balances and approvals.
+74	3. Shows a summary: pool, expected amount, guaranteed minimum
+75	and transactions to sign.
+76	4. Only continues if you type YES. Each transaction is also confirmed
+77	on the Ledger screen.
+78	5. Simulates the swap on-chain; if the simulation fails, nothing is sent.
+79	6. Shows the hash, the network explorer link and the final balances.
+80	Possible transactions (approvals only when needed):
+81	- approve TOKEN_IN → Permit2   (once per token)
+82	- Permit2: authorize the Universal Router (expires in 1h)
+83	are different tokens:
+84	uses V4 pools
+85	with
+86	(and
+87	uses pools with
+88	Tokens with a transfer tax (many memes): use V2
+89	(--versions=v2) and a --slippage above the token tax.
+90	WALLET MODE  (read-only, uses the Ledger to get addresses)
+91	Addresses of the first
+92	Ledger wallets and their index.
+93	ETH (gas token) balance in the
+94	Token balance (name or contract address) in the
+95	with USD value when there is an on-chain price.
+96	The index shown is the one you use in SWAP with --index=N.
+97	IMPORTED WALLETS (private key, up to
+98	, shared with the app):
+99	node topcatswap.js WALLET IMPORTED          lists the imported wallets
+100	node topcatswap.js WALLET IMPORT            imports a private key
+101	(asks for name, key and password)
+102	node topcatswap.js WALLET REMOVE NAME       removes an imported wallet
+103	balances of the imported wallets
+104	Ledger connected over USB, unlocked, with the Ethereum app open.
+105	With --wallet=NAME (imported wallet) the Ledger is not needed.
+106	— UNISWAP V2 + V3 + V4  (POOL, SWAP and WALLET modes)
+107	ENVIRONMENT VARIABLES (optional)
+108	GRAPH_API_KEY   replaces the key included in the code
+109	RPC_URL         Ethereum RPC (default: publicnode)
+110	RPC_URL_42161   Arbitrum RPC
+111	RPC_URL_56      BSC RPC
+112	Help for a single mode: node topcatswap.js POOL | SWAP | WALLET HELP
+113	Could not get the price
+114	on-chain balances × on-chain prices
+115	V4 found on-chain (standard pools, no hooks):
+116	No V4 subgraph for
+117	: looking for standard V4 pools on-chain...
+118	V4 subgraph unavailable (
+119	Looking for standard V4 pools on-chain...
+120	V4 found in the index:
+121	subgraph amounts × on-chain prices
+122	V2: no pair for this token pair.
+123	on-chain reserves × on-chain prices
+124	zero output amount (insufficient liquidity)
+125	computed from the reserves; gas estimated; does not include token transfer taxes
+126	Testing the
+127	V4 pools with the highest TVL...
+128	— the hook may apply a different one in the swap
+129	[unreliable, not used in the ranking]
+130	(negative: reference spot price probably outdated)
+131	OUT net of gas USD:        $
+132	invalid --versions:
+133	(use v2, v3, v4 separated by commas).
+134	Provide TOKEN_IN and TOKEN_OUT.
+135	Invalid token:
+136	(use
+137	or the contract address).
+138	TOKEN_IN and TOKEN_OUT are the same token (
+139	count as the same).
+140	invalid AMOUNT_IN:
+141	(native, wrapped into
+142	(native, unwrapped from
+143	network:
+144	Note: SWAP mode only uses V4 pools with exactly these currencies.
+145	For V4 pools with
+146	native use
+147	; V4 includes pools with
+148	native and with
+149	Warning: no on-chain USD price for one of the tokens;
+150	some TVLs may be N/A or come from the subgraph.
+151	Versions:
+152	LARGEST POOLS + BEST OF EACH VERSION
+153	None of the pools shown returned a quote.
+154	Note: net of gas, the best would be #
+155	with $
+156	net
+157	POOL mode needs TOKEN_IN and TOKEN_OUT.
+158	NO TRANSACTION WAS SIGNED OR SENT.
+160	Imported wallet
+161	There are no imported wallets. Import one with: node topcatswap.js WALLET IMPORT
+162	Imported wallet not found:
+163	. Available:
+164	Imported wallet:
+165	Password for this wallet:
+166	The wallet file does not match the address.
+167	Try again.
+168	You already have
+169	imported wallets. Remove one with: node topcatswap.js WALLET REMOVE NAME
+170	of
+171	The key is encrypted with a password exclusive to this wallet in:
+172	An imported key is less secure than a Ledger: use it for amounts you are willing to risk.
+173	Private key (not shown on screen):
+174	Invalid private key: it must have 64 hexadecimal characters (with or without 0x).
+175	This wallet (
+176	) is already imported.
+177	Password for this wallet (at least 8 characters):
+178	The password must have at least 8 characters.
+179	Repeat the password:
+180	The passwords do not match. Nothing was saved.
+181	Use it with: node topcatswap.js SWAP ETH USDC 0.01 --wallet=\"
+182	The encrypted key is deleted from this computer. The funds stay at the address,
+183	but you can only use it again by importing the private key again.
+184	Type DELETE to confirm:
+185	The Ledger libraries are missing. Install them with:
+186	Transaction rejected on the Ledger.
+187	The Ledger refused because 'Blind signing' is off.
+188	In the Ethereum app → Settings, enable 'Blind signing' and try again.
+189	Open the Ethereum app on the Ledger and try again.
+190	The Ledger is locked. Unlock it with the PIN and try again.
+191	Connecting to the Ledger (unlocked, with the Ethereum app open)...
+192	Could not connect to the Ledger:
+193	no other application (Ledger Live, browser) using the Ledger,
+194	and udev rules installed on Ubuntu.
+195	invalid --from:
+196	matches
+197	, not
+198	The address
+199	was not found on this Ledger
+200	(indexes 0-
+201	Use --path=... with the correct path.
+202	invalid --index:
+203	invalid --fee:
+204	(use 1, 2 or 3).
+205	Sending goes through the normal RPC; --slippage still limits the maximum loss.
+206	invalid --protect on
+207	(options:
+208	Invalid RPC response (HTTP
+209	is not responding (
+210	or --protect=
+211	The private transaction was not included in
+212	It was not published to the public mempool. It may still be included or be dropped;
+213	check the status before trying again.
+214	] asking for confirmation from
+215	wallet
+216	The wallet did not return a valid transaction hash.
+217	Sent by the wallet:
+218	The transaction was not confirmed in
+219	If you sped it up or cancelled it in the wallet, the hash changed: check the status in the wallet.
+220	The transaction failed (reverted):
+221	Max gas cost:
+222	>>> Confirm the transaction on the screen of the
+223	The signature does not match the address of the
+224	. Transaction NOT sent.
+225	Warning: the RPC returned a different hash (
+226	Sent PRIVATELY via
+227	(only appears after it is included)
+228	Waiting for inclusion in a block...
+229	Waiting for confirmation...
+230	The V4 pool currencies do not match TOKEN_IN/TOKEN_OUT.
+231	SWAP mode needs TOKEN_IN TOKEN_OUT AMOUNT_IN.
+232	invalid --slippage: use a value between
+233	Universal Router not found at
+234	No pool returned a quote. Nothing to execute.
+235	Minimum to receive is zero. Amount too small.
+236	--wallet needs the name or address of the imported wallet (e.g. --wallet=Trading).
+237	imported wallet
+238	Wallet (imported):
+239	Wallet (Ledger):
+240	Insufficient balance: you have
+241	, you need
+242	Wallet:
+243	Pool address:
+244	V2 note:                   quote computed from the reserves; if the token charges a tax
+245	on transfer, --slippage must be above the tax.
+246	(pool with hook)
+247	Guaranteed minimum:
+248	WARNING:                   slippage above
+249	%: high maximum loss.
+250	Use --protect.
+251	MEV protection:            ON — private sending via
+252	swap deadline
+253	min, new quote before signing
+254	MEV protection:            off — sending through the public mempool (use --protect)
+255	MEV protection:            not applicable on
+256	(no public mempool)
+257	Gas price:
+258	Balance
+259	WARNING: the balance of
+260	may not be enough for gas
+261	Transactions to sign on the
+262	→ Permit2 (unlimited, once per token)
+263	. Permit2: authorize the Universal Router to spend
+264	(expires in 1h)
+265	With the imported wallet, each transaction is signed right after YES (no other confirmation).
+266	If the Ledger refuses, enable 'Blind signing' in the Ethereum app → Settings.
+267	Type YES to execute (anything else cancels):
+268	Cancelled. NO TRANSACTION WAS SIGNED OR SENT.
+269	USDT: reset approve to 0
+270	Confirming the quote before the swap...
+271	The new quote failed; swap NOT sent. Reason:
+272	Current quote:
+273	The price got worse than the guaranteed minimum (
+274	). Swap NOT sent. Approvals already made remain.
+275	Simulating the swap on-chain...
+276	The swap simulation failed; transaction NOT sent.
+277	(The price may have moved beyond the slippage. Approvals already made remain.)
+278	Simulation OK.
+279	SWAP COMPLETED
+280	(the balance of
+281	already deducts the gas paid)
+282	Specify the wallet: node topcatswap.js WALLET REMOVE NAME
+283	None. Import one with: node topcatswap.js WALLET IMPORT
+284	In SWAP mode use --wallet=NAME (or the address, or the number).
+285	Could not read the token
+286	. Is it an ERC20 contract on Ethereum mainnet?
+287	There are no imported wallets.
+288	Index
+289	In SWAP mode use --index=N (or --from=ADDRESS) to choose the wallet.
+290	(no on-chain USD price for this token)
+291	The imported wallet is locked. Unlock it with the password (button in the sidebar).
+292	dynamic
+293	is not connected yet. Open the connection page (sidebar) and click Connect.
+294	Invalid token address.
+295	Could not read this token. Is it an ERC20 contract on this network?
+296	· with hook
+297	no quote
+298	Choose at least one Uniswap version.
+299	Analysis
+300	Run the pool analysis first.
+301	This pool has no quote. Choose another one.
+302	Invalid slippage: use a value between 0.01 and 50%.
+303	The minimum to receive is zero: the amount is too small.
+304	Wallet read
+305	and you need
+306	The balance of
+307	may not be enough for gas (estimate ~
+308	Slippage above
+309	%: the maximum loss is high.
+310	Turn on MEV protection.
+311	With
+312	sending is done by the wallet itself, so topcatswap's MEV protection
+313	does not apply. Protect yourself in the wallet: MetaMask → Smart Transactions on, or add the
+314	MEV Blocker RPC (https://rpc.mevblocker.io) to the wallet, and use a low slippage.
+315	V2 quote computed from the reserves: if the token charges a sell tax, the slippage must be above the tax.
+316	This V4 pool has a hook (third-party code):
+317	connected
+318	Confirm the wallet
+319	Approve
+320	Authorize the Universal Router
+321	Limited to the amount · expires in 1h
+322	Confirm the quote
+323	New quote before signing
+324	On-chain simulation
+325	If it fails, nothing is sent
+326	Confirmation in
+327	Confirm in the extension window
+328	With the imported key (
+329	Private sending
+330	Sending
+331	· outside the public mempool
+332	Public mempool
+333	Inclusion in a block
+334	Waiting for confirmation
+335	Approve in Permit2
+336	Not needed: you sell
+337	Already approved
+338	Limited to
+339	· expires in 1h
+340	Already authorized
+341	Normal
+342	Fast (+10%)
+343	Faster (+30%)
+344	There is no prepared swap.
+345	A swap is already running.
+346	Confirm in the window of
+347	Signing with the imported key…
+348	Confirm on the screen of the
+349	Connecting to
+350	) is not the one in the summary (
+351	). Go back to the summary to prepare it again.
+352	Sent · waiting for the block
+353	No longer needed
+354	Quoting again…
+355	The new quote failed; nothing was sent. Reason:
+356	· above the minimum
+357	The swap simulation failed; nothing was sent. Reason:
+358	(the price may have moved beyond the slippage; approvals already made remain).
+359	Waiting for the block…
+360	already deducts the gas paid.
+361	You have not imported any wallet yet.
+362	is not connected yet. Open the connection page and click Connect.
+363	Wrong network (
+364	Wallets folder not configured.
+365	invalid file
+366	Invalid private key.
+367	The password must have at least
+368	imported wallets. Remove one in Settings before importing another.
+369	This imported wallet no longer exists.
+370	Could not open the wallet:
+371	The wallet file does not match the address. Nothing was unlocked.
+372	The imported wallet is locked. Unlock it with the password and try again.
+373	The Trezor library (@trezor/connect) is missing. Run ./build-ubuntu.sh again. (
+374	Could not start the connection to the Trezor:
+375	Trezor not detected. Plug in the USB cable, unlock it and check the Trezor udev rules.
+376	The Trezor is being used by another application (Trezor Suite, browser). Close it and try again.
+377	No USB connection to the Trezor. Open Trezor Suite (it includes Trezor Bridge) or install the udev rules, and try again.
+378	Operation rejected or cancelled on the Trezor. Nothing was sent.
+382	not found
+383	method
+384	Wallet error
+385	You rejected the request in
+386	did not authorize this account. Connect the wallet again on the connection page.
+387	There is already a pending request in
+388	: open the extension and answer it.
+389	The connection page for
+390	is not open. Use \"Open page\" in the sidebar and keep it open in the browser.
+391	did not answer in time. Make sure the connection page is open and answer in the extension.
+392	The wallet is still on another network. Switch to
+393	in the extension and try again.
+394	Ready. Go back to the topcatswap app: swaps will be confirmed in this wallet.
+395	Connect
+396	Click Connect and approve the request in the extension window.
+397	Could not find
+398	This page is open in a browser without the extension
+399	. Install it, or open this page in the browser where you have it (in the app: Copy address). You can also use one of the wallets found:
+400	There is no wallet extension in this browser. Install
+401	, or open this page in the browser where you have it (in the app: Copy address), and reload.
+402	Use
+403	not the one chosen in the app
+404	Account changed to
+405	The wallet disconnected this page
+406	Network changed to
+407	The wallet did not return any account.
+408	connected ·
+409	Request rejected in the wallet.
+410	Method not allowed:
+411	The wallet is not connected on this page yet. Click Connect.
+412	Asking for confirmation of a transaction in
+413	Asking to switch network…
+414	Transaction sent ·
+415	Transaction rejected in the wallet
+416	The wallet returned an error
+417	No connection to the topcatswap app. Open the app (or open this page again from it).
+418	Page expired
+419	The topcatswap app was closed or restarted. Open the connection page again from the app.
+420	Could not start the interface
+421	The error is also saved in ~/.config/TopCatSwap/topcatswap.log. Ctrl+Shift+I opens the diagnostic tools.
+422	The bridge between the window and the engine (preload.js) did not load: window.api does not exist.
+423	window.api unavailable
+424	Hardware · connected over USB. Ledger Live accounts.
+425	Hardware · connected over USB. Trezor Suite accounts.
+426	Browser extension. Also works with a Ledger/Trezor connected to MetaMask.
+427	Browser extension.
+428	Browser extension. Shows the simulation before signing.
+429	Coinbase Wallet extension (self-custody wallet, not the exchange account).
+430	Imported private key, encrypted on this computer with its own password.
+431	Fixed address
+432	Invalid value: use a number between 0.01 and 50.
+433	Above 5%: high maximum loss. Turn on MEV protection.
+434	% of the quote.
+435	(coming soon)
+436	Network
+437	Cancel
+438	" aria-label="Token to
+439	. Change">
+440	Balance:
+441	connect
+442	read the wallet
+443	Balance unavailable
+444	Max
+445	Private sending service
+446	Custom slippage (0.01 to 50%)
+447	network fee
+448	Fast
+449	Faster
+450	MEV protection
+451	sending is done by the wallet itself. Turn on the wallet's protection (MetaMask: Smart Transactions) or add the MEV Blocker RPC to it:
+452	Private sending against sandwich and frontrun
+453	Not applicable on
+454	Choose the tokens and the amount. The bot compares V2, V3 and V4 and picks the pool that delivers the most.
+455	The amount to receive is computed in the analysis, quoting each pool with the real amount.
+456	Options
+457	Maximum slippage
+458	Memes with a sell tax: use a value above the token's tax.
+459	Speed
+460	Uniswap versions
+461	Sequencer (no public mempool)
+462	Swap deadline
+463	Wallet
+464	Pool analysis
+465	and quoting each one with the real amount. You can cancel to change the tokens, the amount or the versions.
+466	Cancel and go back to Swap
+467	Compare the Uniswap pools for a token pair.
+468	There is no analysis yet
+469	Choose the tokens and the amount on the Swap screen and click Analyze pools.
+470	Go to Swap
+471	It is the best execution: it delivers the most
+472	less than the best execution.
+473	Best execution
+474	Net of gas
+475	>Continue with this pool
+476	No pool returned a quote for this amount. Try another amount or other versions.
+477	Back to swap
+478	quoted with the real amount
+479	Refresh quotes
+480	Sorted by amount received · pick a row to use it
+481	Net
+482	Continue to the summary
+483	Reading the wallet on the Ledger…
+484	Unlock the Ledger and open the Ethereum app. Close Ledger Live if it is open.
+485	Reading the imported wallet…
+486	Reading balances and approvals on the network.
+487	Reading the wallet on the Trezor…
+488	Connect and unlock the Trezor. Close Trezor Suite if it is open. If it asks for a PIN or passphrase, answer on the screen that appears.
+489	Reading the account in
+490	The connection page must be open in the browser.
+491	Swap summary
+492	Cancel and go back to the analysis
+493	Back to the analysis
+494	Could not prepare the swap
+495	Unlock
+496	Try again
+497	MEV protection on
+498	No MEV protection
+499	MEV protection not applicable
+500	Review everything before signing. Nothing is sent until you confirm here and in
+501	Guaranteed minimum
+502	(the wallet chooses the RPC)
+503	· new quote before signing
+504	Network sequencer (no public mempool)
+505	Deadline
+506	Transactions to sign
+507	Confirm and sign
+508	You will have to confirm the transaction on the Ledger screen. \"Blind signing\" must be enabled in the Ethereum app.
+509	You will have to confirm the transaction on the Trezor screen (Trezor Suite closed).
+510	When you click Confirm, the app signs right away with the imported key, with no other confirmation. Review the summary carefully.
+511	Each transaction opens a window of
+512	in the browser: confirm there. Keep the connection page open.
+513	There is no swap running.
+514	Signing with the imported key
+515	Waiting for confirmation in
+516	Waiting for the signature on
+517	Confirm transaction
+518	Confirm the transaction in
+519	Confirm the transaction on your
+520	Keep the connection page open
+521	Keep the
+522	connected and unlocked
+523	Nothing was sent after the step marked in red.
+524	Each transaction is signed here with the imported key and sent
+525	privately.
+526	to the network.
+527	Open the extension window in the browser (if it does not open by itself, click the icon of
+528	) and confirm. If you reject, nothing is sent.
+529	Go through the screens with the buttons and approve on \"Accept and send\". If you reject, nothing is sent.
+530	Check the destination and the amount on the Trezor screen and confirm. If you reject, nothing is sent.
+531	Each transaction appears in the window of
+532	before being sent.
+533	Each transaction is shown on the screen of the
+534	before being signed.
+535	Sign and send
+536	Private sending ·
+537	Do not close the app while the swap is running.
+538	Back to the summary
+539	Swap completed
+540	There is no completed swap yet.
+541	Transaction
+542	Copy hash
+543	Click Read wallets to see the balances of the imported wallets.
+544	Connect the Ledger, unlock it and open the Ethereum app. Then click Read wallets.
+545	Connect the Trezor and unlock it (close Trezor Suite). Then click Read wallets.
+546	Connect
+547	on the browser connection page. Then click Read wallets.
+548	Reading the wallets on
+549	Read wallets
+550	Copy address
+551	Active wallet
+552	Use this one
+553	Select it in the extension
+554	>Import private key (
+555	. To use another one, switch account in the extension.
+556	Show the next
+557	Total across
+558	Your imported wallets (up to
+559	). Each one asks for its own password when used.
+562	. Choose the active wallet for swaps.
+564	. Choose the active wallet.
+565	The accounts you authorized in
+566	. The active one is the one selected in the extension.
+567	Addresses are the same on every network; balances are read on the network chosen above. Using the account in MetaMask's legacy format? Choose \"Search by address\" in Settings › Ledger.
+568	Addresses are the same on every network; balances are read on the network chosen above.
+569	Connection
+570	Balance of
+571	Other token (contract address)
+572	coming soon
+573	MEV protection:
+574	services
+575	no public mempool
+576	Ledger Live account
+577	By index: 0 = Ethereum 1
+578	Search by address
+579	Searches indexes 0–9, Ledger Live and legacy
+580	For advanced users
+581	Address
+582	Derivation path
+583	Settings
+584	Defaults used in each swap. You can change them on the swap screen.
+585	Restore defaults
+586	Save
+587	Default network
+588	Same as the --chain option.
+589	Swap defaults
+590	Swap deadline (minutes)
+591	Maximum time for the swap to enter a block; after that the network rejects it. Default 3 minutes (1 to 60).
+592	MEV protection on by default
+593	Ignored on networks without a public mempool (Arbitrum)
+594	Service on Ethereum
+595	Service on BSC
+596	Connections
+597	RPCs used for reads and for sending without protection. Empty = the default RPC.
+598	Empty = key included in the bot
+599	The Graph key
+600	Used to discover V4 pools. Stored only on this computer.
+601	Test connections
+602	Connections are tested with the saved values.
+603	Change wallet
+604	Up to
+605	, each one encrypted with its own password on this computer.
+606	Remove
+607	No imported wallet.
+608	Account (index: 0 = account 1 in Trezor Suite)
+609	Experimental support. Path m/44'/60'/0'/0/N. Trezor One: the PIN is typed in the app using the scrambled grid; Model T and Safe: PIN and passphrase on the device itself.
+610	Connect wallet
+611	The chosen wallet (
+612	) connects over USB: it does not need the browser page.
+613	Connection page open in the browser
+614	Open · keep the tab open
+615	Click Open page in the browser
+616	Extension:
+617	Not found; the browser has:
+618	Not found in that browser. Install the extension or open the page in another browser
+619	Account connected
+620	On the page, click Connect and approve in the extension
+621	The extension is on another network; the app asks to switch to
+622	lives in the browser. The app opens a local page (only on this computer) that connects the extension to the app.
+623	Open the page again
+624	Open page in the browser
+625	Copy page address
+626	The page opens in the default browser. If
+627	is in another browser, copy the address and paste it there.
+628	Each approve and each swap appear in the window of
+629	: you confirm there. The key never leaves the extension.
+630	The account used is the one selected in the extension. To change it, change it in
+631	MEV protection: sending is done by the wallet. Use the wallet's own protection or the MEV Blocker RPC in it.
+632	Browser extensions only. Mobile apps do not connect this way.
+633	Last used
+634	Asks for this wallet's password
+635	Import private key
+636	used · each one with its own password
+637	Limit of
+638	Remove one in Settings › Imported wallets to import another.
+639	Choose your wallet
+640	Which wallet will you use to sign swaps in this session?
+641	Hardware wallets · USB
+642	Browser wallets · extension
+643	The key is encrypted on this computer. You will type this wallet's password; it stays unlocked until you close the app, lock it or 30 min pass without use.
+644	The app opens a local page in the browser to connect
+645	. Keep it open while you use the app.
+646	Close Trezor Suite before using the app: only one application at a time can talk to the Trezor.
+647	Close Ledger Live before using the app: only one application at a time can talk to the Ledger.
+648	>Continue with
+649	Trezor PIN
+650	The numbers are scrambled on the Trezor screen. Click here on the positions that match the digits of your PIN.
+651	Wrong PIN. Try again.
+652	" aria-label="Position
+653	Trezor passphrase
+654	Your Trezor has the passphrase enabled. Each passphrase opens a different wallet; without a passphrase it is the standard wallet.
+655	Follow the instructions on the Trezor screen.
+656	The key is encrypted on this computer with the password you choose, exclusive to this wallet.
+657	E.g.: Trading wallet
+658	At least 8 characters
+659	Password for this wallet
+660	Repeat the password
+661	An imported key is less secure than a hardware wallet: anyone with access to this computer and the password can use it. Use it for amounts you are willing to risk. If you forget the password, you can only recover the wallet by importing the private key again.
+662	Import and use
+663	It stays unlocked until you close the app, lock it, choose another wallet or 30 minutes pass without use.
+664	The encrypted key is deleted from this computer. The funds stay at the address, but you can only use it again by importing the private key again. Do you have the key stored somewhere else?
+665	network currency
+666	Token to
+667	Could not start TopCatSwap
+668	Imported key in memory
+669	Type the password to use it
+670	Lock
+671	in use
+672	Page open
+673	Confirm in the extension
+674	Connection page open
+675	Click Connect on the page
+676	Extension not found
+677	Open the page in the browser
+678	Open page
+679	not detected
+680	Open the Ethereum app to sign
+681	Ready to sign
+682	Plug in the USB cable and unlock
+683	Enter the amount to sell.
+684	Choose two different tokens.
+685	The passwords do not match.
+686	Invalid address: it must start with 0x and have 42 characters.
+687	Swap defaults restored. Click Save to apply.
+688	Invalid slippage: use a value between 0.01 and 50.
+689	Invalid swap deadline: use a whole number of minutes between 1 and 60.
+690	Invalid wallet address.
+691	Settings saved.
+692	— Make sure you ran the install script (npm install) and that the node_modules folder exists.
+693	Unknown wallet.
+694	[wallet] imported
+695	[wallet] removed
+696	Address not allowed.
+697	[wallet]

@@ -1,0 +1,200 @@
+m47	(native)
+m51	itself (e.g. --chain=bsc, --chain=56).
+m54	Examples:
+m58	On BSC: --protect (Merkle), --protect=pancakeswap,
+m59	- swap on the Universal Router
+m60	In this mode,
+m61	wrapped on V2/V3);
+m71	wallets.
+m73	wallets,
+m75	Folder:
+m77	REQUIREMENTS FOR SWAP AND WALLET MODES
+m79	In the Ethereum app → Settings, enable 'Blind signing'.
+m80	UNISWAP BOT — POOL MODE
+m81	UNISWAP BOT — SWAP MODE
+m82	UNISWAP BOT — WALLET MODE
+m86	/USD on
+m92	V3 found:
+m96	(native)
+m100	V4 found:
+m104	subgraph (may be outdated)
+m105	V2 found:
+m106	| no liquidity
+m107	reserves
+m108	on-chain (reserves)
+m110	NO QUOTE
+m116	STORED LP FEE:
+m117	TRADE:
+m122	LIQUIDITY:
+m135	Gas (estimate):
+m137	Note:
+m141	--versions is empty.
+m143	AMOUNT:
+m144	treated as equivalent
+m145	(V2/V3 use
+m146	Looking for V2...
+m147	V2 SEARCH ERROR:
+m148	Looking for V3...
+m149	Looking for V4...
+m150	V4 SEARCH ERROR:
+m151	Continuing without V4.
+m152	BEST EXECUTION (largest amount received)
+m153	V2 found:
+m154	V3 found:
+m155	V4 found:
+m156	TOTAL DISCOVERED:
+m157	SHOWN:
+m175	Wrong password.
+m176	Wrong password 3 times. Nothing was done.
+m177	IMPORT WALLET BY PRIVATE KEY (
+m178	Name (optional):
+m179	Encrypting...
+m182	Imported:
+m183	You are about to remove
+m184	DELETE
+m185	Cancelled. Nothing was deleted.
+m186	Removed.
+m190	Unknown Ledger error.
+m191	Check: USB cable connected, Ledger unlocked, Ethereum app open,
+m192	The path
+m193	Looking for
+m194	on the Ledger...
+m197	WARNING: --protect ignored on
+m199	Try --protect=
+m200	... block
+m201	blocks,
+m202	minutes.
+m204	Status:
+m210	To:
+m211	Value:
+m215	+ tip
+m216	Nonce:
+m218	Sent:
+m219	Confirmed in block
+m220	| gas used
+m221	| cost
+m232	SWAP SUMMARY
+m236	You sell:
+m237	You receive (estimated):
+m239	Estimated value:           $
+m244	(gas):
+m245	(estimate ~
+m247	. swap on the Universal Router
+m248	YES
+m252	(before:
+m253	Reason:
+m254	Received:
+m258	IMPORTED WALLETS (
+m261	Unknown WALLET subcommand:
+m262	LEDGER WALLETS (Ledger Live paths)
+m264	BALANCES:
+m273	ERROR:
+m287	cancelled.
+m292	· no hook
+m294	in Permit2
+m295	Once per token
+m300	Signature in this app
+m301	Signature on
+m302	Confirm on the device
+m304	Sent by
+m306	Once per token (unlimited)
+m307	Swap on the Universal Router
+m308	Value
+m310	minute
+m311	minutes
+m314	The active account in
+m316	Preparing…
+m317	Approved
+m318	Authorized
+m319	). Nothing was sent. Before:
+m320	, now:
+m321	Simulating…
+m322	The swap passes · gas limit
+m323	Signed
+m324	Block
+m325	Connected
+m326	No response
+m327	characters.
+m355	Unknown Trezor error.
+m360	Wrong PIN on the Trezor.
+m365	Cancelled in the app
+m398	too large
+m432	Connect
+m459	Trezor · account
+m466	You receive at least
+m468	Unknown error.
+m471	not connected
+m472	not read
+m473	sell
+m474	receive
+m480	no private RPC
+m482	Trade
+m483	You sell
+m484	Swap tokens
+m485	You receive (estimated)
+m487	Analyzing pools…
+m488	Analyze pools
+m489	Custom
+m490	Through
+m491	Private via
+m492	min · change
+m493	· change
+m494	Looking for pools
+m500	Delivers
+m501	Impact
+m504	pools found ·
+m505	Compared pools
+m508	You receive (
+m509	Chosen pool:
+m515	The trade
+m518	Current balances
+m519	Sign on
+m520	Signing…
+m521	Imported key
+m522	ready
+m528	The swap stopped
+m529	Confirm in
+m530	Progress
+m531	New swap
+m532	You received
+m533	for
+m534	You sold
+m536	">View on
+m537	Balances now
+m538	View wallets
+m540	Account
+m541	Active
+m543	Accounts authorized in
+m544	Reading…
+m545	wallets
+m546	Imported wallets
+m547	Wallets ·
+m549	Wallets
+m550	View balances
+m563	Custom path
+m570	Show key
+m571	Testing…
+m572	In use
+m573	found
+m574	when sending
+m577	Ready
+m578	How it works
+m585	reached
+m586	Imported wallets · private key
+m590	Delete
+m592	Type on the Trezor
+m593	No passphrase
+m594	Confirm on the Trezor
+m598	imported wallets.
+m599	Name (optional)
+m600	Private key
+m601	Encrypting…
+m603	Opening…
+m604	Yes, remove
+m610	Starting…
+m616	Unlocked
+m617	Locked
+m645	Copied
+m743	[preload] failed to load
+m748	[window] ended:
+m753	[main] error:

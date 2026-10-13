@@ -1,0 +1,13 @@
+{
+  "name": "topcatswap-repo",
+  "private": true,
+  "license": "MIT",
+  "description": "TopCatSwap — web, Ubuntu app, command line and bundle relay",
+  "scripts": {
+    "build:web": "node tools/build-web.js",
+    "serve:web": "python3 -m http.server 8080 -d dist-web",
+    "relay": "node relay/server.mjs",
+    "test:setup": "npm install --no-save --prefix .ci ethers@6.13.4",
+    "test": "node tests/relay.test.mjs && NODE_PATH=.ci/node_modules node tests/ledger-webhid.test.js && NODE_PATH=.ci/node_modules node tests/bundles-flow.test.js"
+  }
+}

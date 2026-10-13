@@ -1,0 +1,140 @@
+=====================================================================
+  TOPCATSWAP 1.1.2 FOR UBUNTU - HOW TO BUILD, INSTALL AND USE
+=====================================================================
+
+WHAT IT IS
+----------
+  Desktop app of the topcatswap bot: Swap, Pools, Wallets and
+  Settings, in Portuguese (PT) or English (US). Same engine as the
+  command-line bot. Uniswap V2, V3 and V4 on Ethereum, Arbitrum and BSC.
+
+  At startup you choose the wallet you sign with:
+    Hardware (USB):   Ledger, Trezor (experimental)
+    Browser:          MetaMask, OKX Wallet, Rabby, Coinbase Wallet,
+                      Trust Wallet (browser extensions)
+    Imported:         up to 5 wallets by private key, each one
+                      encrypted with its own password
+  Private keys never leave the wallet (imported keys stay encrypted
+  on this computer).
+
+
+STEP 1 - BUILD THE EXECUTABLE (once per version)
+------------------------------------------------
+  You need Node.js 18 or newer and an internet connection.
+
+    cd ~/Desktop/topcatswap-1.1.2
+    ./build-ubuntu.sh
+
+  The script installs missing system packages (asks for the sudo
+  password), the dependencies (Electron, ethers, Ledger and Trezor
+  libraries), compiles the USB modules for Electron and creates in dist/:
+        TopCatSwap-1.1.2-amd64.deb
+        TopCatSwap-1.1.2-x86_64.AppImage
+
+
+STEP 2 - INSTALL
+----------------
+    sudo apt install ./dist/TopCatSwap-1.1.2-amd64.deb
+    topcatswap
+
+  Uninstall:  sudo apt remove topcatswap
+  AppImage (no install):
+    chmod +x dist/TopCatSwap-1.1.2-x86_64.AppImage
+    ./dist/TopCatSwap-1.1.2-x86_64.AppImage --no-sandbox
+  (on Ubuntu 22.04/24.04 it may need: sudo apt install libfuse2 / libfuse2t64)
+
+
+STEP 3 - WALLETS
+----------------
+  LEDGER
+  - udev rules (new PC):
+      wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
+  - Close Ledger Live. Ledger unlocked, Ethereum app open, "Blind signing" on.
+
+  TREZOR (experimental)
+  - udev rules (once):
+      sudo curl -fsSL https://data.trezor.io/udev/51-trezor.rules -o /etc/udev/rules.d/51-trezor.rules
+      sudo udevadm control --reload-rules && sudo udevadm trigger
+  - Close Trezor Suite. Trezor One: the PIN is typed in the app on a
+    3x3 grid (numbers scrambled on the device). Model T / Safe: PIN and
+    passphrase on the device. Accounts m/44'/60'/0'/0/N.
+
+  METAMASK, OKX, RABBY, COINBASE WALLET, TRUST WALLET
+  - Browser extension required (mobile apps do not connect this way).
+  - The app opens a local page (http://127.0.0.1:47615/c/.../) in the
+    default browser. If the extension is in another browser, use
+    "Copy page address" and paste it there. Click "Connect" and approve.
+  - Keep that page open while you use the app. Each transaction is
+    confirmed in the extension window.
+  - MEV protection: the wallet sends the transaction, so topcatswap's
+    --protect does not apply. Use the wallet's own protection (MetaMask
+    Smart Transactions) or add the MEV Blocker RPC to it:
+    https://rpc.mevblocker.io
+
+  IMPORTED WALLETS (private key)
+  - "Import private key" in the startup menu or Settings > Imported
+    wallets: name, key (64 hex characters) and a password for that
+    wallet only (at least 8 characters). Up to 5.
+  - Stored encrypted (standard Ethereum keystore, scrypt) in
+    ~/.config/TopCatSwap/wallets/ - also used by the command-line bot.
+  - Choosing one asks for its password. It stays unlocked until you close
+    the app, click "Lock", choose another wallet or 30 min without use.
+  - Signing happens in the app with no external confirmation: review the
+    summary. MEV protection works normally.
+  - Less secure than a hardware wallet. Keep the original key elsewhere:
+    if you forget the password, remove the wallet and import it again.
+
+
+FIRST USE
+---------
+  0. Startup menu "Choose your wallet" (PT | EN at the top right).
+  1. Wallets -> "Read wallets" -> "Use this one".
+  2. Swap -> tokens (ETH, WETH, USDC or a contract address), amount, options.
+  3. "Analyze pools" -> choose the pool -> "Continue".
+  4. Review the summary -> "Confirm and sign" -> confirm in the wallet.
+  Do the first swap with a small amount.
+
+
+BUNDLES (new in 1.1.1)
+----------------------
+  "Bundles" tab: several transactions in a single block, sent directly
+  to the builders (Ethereum: Flashbots, BuilderNet, Titan, beaverbuild;
+  BSC: 48 Club, BlockRazor). All or nothing, private and no gas if it
+  fails. Types: atomic swap (approve + swap in the same block), several
+  swaps, the same swap from several wallets, and revoking approvals of
+  several tokens. Works with Ledger, Trezor and imported wallets (not
+  with browser extensions). No bundles on Arbitrum (no public mempool).
+  "Pool types" lets you pick V2, V3 and/or V4 (since 1.1.2 you can
+  exclude the V4 pools).
+
+
+LANGUAGE
+--------
+  Portuguese (PT) or English (US): startup menu (PT | EN) or
+  Settings > Language. The app restarts; settings and wallets are kept.
+  Command-line bot: topcatswap_comline_pt_1-1-2.js (PT) and
+  topcatswap_comline_us_1-1-2.js (EN).
+
+
+SETTINGS
+--------
+  ~/.config/TopCatSwap/settings.json (only you can read it): network,
+  slippage, speed, swap deadline, MEV protection, RPCs, The Graph key,
+  wallet, Ledger account mode, Trezor account and language.
+  Log: ~/.config/TopCatSwap/topcatswap.log
+
+
+TROUBLESHOOTING
+---------------
+  "Ledger not detected"            -> cable, PIN, udev rules, close Ledger Live.
+  "Open the Ethereum app"          -> open the Ethereum app on the Ledger.
+  "Blind signing"                  -> Ethereum app -> Settings -> Blind signing.
+  "Trezor not detected"            -> Trezor udev rules, close Trezor Suite.
+  "Could not find MetaMask"        -> the page opened in a browser without the
+                                      extension: copy the address to the right one.
+  "Wrong password"                 -> each imported wallet has its own password.
+  "The swap simulation failed"     -> price moved or the token has a tax:
+                                      raise the slippage (memes: V2 only).
+  Build error                      -> sudo apt install build-essential
+                                      libudev-dev libusb-1.0-0-dev python3
+=====================================================================

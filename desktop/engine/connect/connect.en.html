@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>topcatswap · connect wallet</title>
+<link rel="stylesheet" href="connect.css">
+</head>
+<body>
+<main class="wrap">
+<header class="head">
+<img src="logo.png" alt="" width="48" height="48">
+<div><div class="brand">topcat<span>swap</span></div><div class="sub">Browser wallet connection</div></div>
+</header>
+
+<section class="card" aria-live="polite">
+<h1 id="title">Looking for the wallet…</h1>
+<p id="lead" class="lead">Looking for wallet extensions in this browser.</p>
+<div id="choices" class="choices"></div>
+<button type="button" id="connect" class="btn primary" hidden>Connect</button>
+<div id="status" class="status" hidden>
+<div class="row"><span>Wallet</span><b id="s-wallet">—</b></div>
+<div class="row"><span>Account</span><b id="s-account" class="mono">—</b></div>
+<div class="row"><span>Network</span><b id="s-chain">—</b></div>
+</div>
+<p id="error" class="error" role="alert" hidden></p>
+</section>
+
+<section class="card small">
+<h2>Keep this page open</h2>
+<p>While you use topcatswap, this page passes the app's requests to the wallet. You confirm each transaction in the extension window. You can minimize the browser, but do not close this tab.</p>
+<ol id="log" class="log"></ol>
+</section>
+<p class="foot">Local page (127.0.0.1): it only works on this computer and while the app is open.</p>
+</main>
+<script src="connect.js"></script>
+</body>
+</html>

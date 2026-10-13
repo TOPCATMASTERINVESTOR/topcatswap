@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-web/
+desktop/dist/
+*.log
+.DS_Store
+__pycache__/
+.wrangler/
+.ci/

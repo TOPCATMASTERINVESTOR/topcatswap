@@ -1,0 +1,215 @@
+1
+00:00:00,598 --> 00:00:09,650
+Welcome! In this lesson you'll learn what a bundle is, why it is useful and which problems it prevents.
+
+2
+00:00:09,950 --> 00:00:17,426
+At the end, we'll walk through the app's Bundles tab, step by step.
+
+3
+00:00:17,726 --> 00:00:28,377
+When you make a normal swap, the transaction leaves your wallet and goes to the public mempool: the waiting room before a block.
+
+4
+00:00:28,677 --> 00:00:36,127
+The problem: everyone can see the mempool — including bots looking for transactions to exploit.
+
+5
+00:00:36,427 --> 00:00:45,002
+Only a few seconds later does a block include it. Until then, your transaction is exposed.
+
+6
+00:00:45,302 --> 00:00:52,358
+Imagine you are buying a token. A bot sees your swap in the mempool…
+
+7
+00:00:52,658 --> 00:01:00,508
+…and places a buy before yours, paying more gas to jump ahead. The price goes up.
+
+8
+00:01:00,808 --> 00:01:08,659
+Your buy executes at a worse price: you get fewer tokens (down to your slippage limit).
+
+9
+00:01:08,959 --> 00:01:18,270
+Right after, the bot sells and pockets the difference. That is a sandwich. Frontrunning is the same idea.
+
+10
+00:01:18,570 --> 00:01:25,621
+Another problem: a swap often needs approvals first (approve and Permit2), in separate transactions.
+
+11
+00:01:25,921 --> 00:01:36,572
+If the swap fails — because the price moved or the slippage was tight — you still pay the gas, without trading anything.
+
+12
+00:01:36,872 --> 00:01:46,585
+And the approvals are left hanging: they landed on-chain, but the swap that gave them a purpose did not.
+
+13
+00:01:46,885 --> 00:01:55,935
+A bundle is a package of already-signed transactions in a fixed order: for example approve → Permit2 → swap.
+
+14
+00:01:56,235 --> 00:02:05,686
+The package never goes to the mempool: it is delivered privately. Nobody sees it before it is in a block.
+
+15
+00:02:05,986 --> 00:02:15,442
+It goes straight to the builders — the ones who assemble blocks. The app sends it to several at once.
+
+16
+00:02:15,742 --> 00:02:25,078
+The builder puts the whole package in the block, in the order you set, with nothing in between.
+
+17
+00:02:25,378 --> 00:02:33,629
+The golden rule is all or nothing. Either all three transactions land together, in the same block…
+
+18
+00:02:33,929 --> 00:02:44,046
+…or, if any of them fails in the builder's simulation, none lands — and you pay no gas at all.
+
+19
+00:02:44,346 --> 00:02:53,797
+Summing up what a bundle prevents. First, sandwich and frontrun: bots don't see the transaction and can't get in between.
+
+20
+00:02:54,097 --> 00:03:00,757
+Second, wasted gas on failing swaps: the builder simply doesn't include the bundle.
+
+21
+00:03:01,057 --> 00:03:07,334
+Third, dangling approvals: the approve only lands if the swap lands too.
+
+22
+00:03:07,634 --> 00:03:13,086
+Fourth, several wallets buying in different blocks, at different prices.
+
+23
+00:03:13,386 --> 00:03:21,104
+And fifth, several swaps made one by one, exposed and liable to fail halfway.
+
+24
+00:03:21,404 --> 00:03:26,854
+Now in practice. Open the Bundles tab in the sidebar.
+
+25
+00:03:27,154 --> 00:03:37,413
+At the top, four cards remind you of the advantages: all or nothing, no gas if it fails, private and several builders.
+
+26
+00:03:37,713 --> 00:03:43,963
+Then you choose the bundle type. We start with the Atomic swap.
+
+27
+00:03:44,263 --> 00:03:52,914
+Type the token you sell, the one you receive and the amount — here, 25 USDC for WETH.
+
+28
+00:03:53,214 --> 00:04:03,865
+In the options, the maximum slippage. The bundle protects the order, but the price can move between blocks: slippage is still your limit.
+
+29
+00:04:04,165 --> 00:04:12,830
+Priority is the tip paid to the builder. A higher tip means a better chance to land quickly.
+
+30
+00:04:13,130 --> 00:04:21,385
+Blocks: for how many blocks the bundle is tried. On Ethereum, 10 blocks are about 2 minutes.
+
+31
+00:04:21,685 --> 00:04:28,336
+Builders: where to send it. The more, the better the chance of inclusion.
+
+32
+00:04:28,636 --> 00:04:37,554
+Click Prepare bundle. Nothing is signed here: the app analyzes the pools and simulates the whole sequence.
+
+33
+00:04:37,854 --> 00:04:45,307
+The summary shows the swap, the chosen pool, the expected amount and the guaranteed minimum.
+
+34
+00:04:45,607 --> 00:04:53,464
+Here are the bundle's transactions, in order: approve USDC, authorize the Universal Router, and the swap.
+
+35
+00:04:53,764 --> 00:05:05,215
+Next to it, the sending details: builders, blocks, tip, estimated gas and what happens if it fails — nothing lands and you pay no gas.
+
+36
+00:05:05,515 --> 00:05:16,427
+If everything looks right: Sign and send bundle. On the Ledger you confirm each transaction; nothing leaves before you sign them all.
+
+37
+00:05:16,727 --> 00:05:23,377
+The app shows the progress: building the bundle, simulating the sequence and signing…
+
+38
+00:05:23,677 --> 00:05:31,793
+…then the final simulation at Flashbots, sending to the builders and waiting for the block.
+
+39
+00:05:32,093 --> 00:05:41,041
+Result: bundle included. All three transactions landed together in the same block, with links to the explorer.
+
+40
+00:05:41,341 --> 00:05:54,261
+And if no builder includes it? You see “Bundle not included”: nothing was executed and you paid no gas. Try again with more priority or more blocks.
+
+41
+00:05:54,561 --> 00:06:05,212
+Several swaps: up to 12 swaps from the same wallet in one block — for example selling USDC, PEPE and ETH at once.
+
+42
+00:06:05,512 --> 00:06:14,426
+Here you can allow one swap to fail without cancelling the others. Off means all or nothing.
+
+43
+00:06:14,726 --> 00:06:26,437
+Several wallets: the same swap made by several Ledger accounts, or several imported wallets, all in the same block and at the same price.
+
+44
+00:06:26,737 --> 00:06:35,648
+Revoke approvals: removes, in one go, the old approvals you gave to several tokens. Good security hygiene.
+
+45
+00:06:35,948 --> 00:06:43,802
+Where it works: Ethereum and BSC. Arbitrum has no public mempool, so it has no bundles.
+
+46
+00:06:44,102 --> 00:06:51,153
+Which wallets: Ledger, Trezor and imported wallets. Extensions like MetaMask cannot sign without sending.
+
+47
+00:06:51,453 --> 00:07:00,904
+It's not magic: slippage still matters and a builder may not include the bundle — at no cost to you.
+
+48
+00:07:01,204 --> 00:07:10,525
+And start small: your first bundle with a low amount, and raise the priority if it doesn't land.
+
+49
+00:07:10,825 --> 00:07:15,478
+Think for a moment before seeing the answer…
+
+50
+00:07:15,778 --> 00:07:22,735
+Right: nothing lands and you pay no gas. That's the all-or-nothing rule.
+
+51
+00:07:23,035 --> 00:07:26,614
+One more…
+
+52
+00:07:26,914 --> 00:07:35,832
+Exactly: bots can't see it before the block and can't get in between the order you set.
+
+53
+00:07:36,132 --> 00:07:43,991
+To recap: a bundle groups transactions into one block, privately, and only lands if everything passes.
+
+54
+00:07:44,291 --> 00:07:52,291
+Thanks for following this lesson. Now try it in the Bundles tab — start with a small amount!

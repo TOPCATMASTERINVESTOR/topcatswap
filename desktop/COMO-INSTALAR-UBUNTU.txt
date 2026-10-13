@@ -1,0 +1,217 @@
+=====================================================================
+  TOPCATSWAP PARA UBUNTU - COMO GERAR, INSTALAR E USAR
+=====================================================================
+
+O QUE E
+-------
+  Aplicacao grafica do bot topcatswap: Swap, Pools, Carteiras e
+  Definicoes. Usa o mesmo motor do bot de linha de comandos.
+
+  No arranque escolhes a carteira com que assinas:
+    Hardware (USB):   Ledger, Trezor (experimental)
+    Navegador:        MetaMask, OKX Wallet, Rabby, Coinbase Wallet,
+                      Trust Wallet (extensoes do navegador)
+    Importadas:       ate 5 carteiras por chave privada (novo na 1.0.7),
+                      cada uma cifrada com a sua password
+  As chaves privadas nunca saem da carteira.
+
+
+CONTEUDO DA PASTA
+-----------------
+  build-ubuntu.sh            gera o executavel (AppImage e .deb)
+  main.js, preload.js        processo principal da aplicacao
+  renderer/                  interface (ecras)
+  engine/topcatswap.js       o bot (continua a funcionar no terminal)
+  engine/gui-engine.js       ligacao entre a interface e o bot
+  engine/trezor.js           ligacao a Trezor
+  engine/wallet-bridge.js    ligacao as carteiras do navegador
+  engine/keystore.js         carteiras importadas (chaves cifradas)
+  engine/connect/            pagina local que liga a extensao a app
+  build/icon.png             icone
+  package.json               dependencias e configuracao do build
+
+
+PASSO 1 - GERAR O EXECUTAVEL (uma vez)
+--------------------------------------
+  Precisas do Node.js 18 ou superior e de ligacao a internet.
+
+    cd ~/Desktop/topcatswap-app
+    ./build-ubuntu.sh
+
+  O script:
+    - instala os pacotes do sistema que faltarem (pede a password sudo):
+      build-essential, libudev-dev, libusb-1.0-0-dev, python3
+    - instala as dependencias (Electron, ethers, bibliotecas da Ledger
+      e da Trezor)
+    - compila os modulos USB para o Electron
+    - gera na pasta dist/:
+        TopCatSwap-1.1.2-amd64.deb
+        TopCatSwap-1.1.2-x86_64.AppImage
+
+  Demora alguns minutos na primeira vez.
+
+
+PASSO 2 - INSTALAR
+------------------
+  Opcao recomendada (.deb), fica no menu de aplicacoes:
+
+    sudo apt install ./dist/TopCatSwap-1.1.2-amd64.deb
+
+  Depois abre "TopCatSwap" no menu, ou escreve  topcatswap  no terminal.
+  Para desinstalar:  sudo apt remove topcatswap
+
+  Alternativa (AppImage, sem instalar):
+
+    chmod +x dist/TopCatSwap-1.1.2-x86_64.AppImage
+    ./dist/TopCatSwap-1.1.2-x86_64.AppImage --no-sandbox
+
+  Notas sobre o AppImage:
+    - no Ubuntu 22.04 e 24.04 pode ser preciso:  sudo apt install libfuse2
+      (no 24.04 o pacote chama-se libfuse2t64)
+    - o --no-sandbox e necessario no Ubuntu 24.04 por causa das regras
+      AppArmor; o .deb nao precisa dele.
+
+
+PASSO 3 - LEDGER
+----------------
+  - As regras udev ja estao instaladas no teu PC. Num PC novo:
+      wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
+  - Fecha o Ledger Live, o MetaMask e a Rabby antes de usar a app:
+    so uma aplicacao de cada vez pode falar com a Ledger.
+  - Ledger desbloqueada, app Ethereum aberta, "Blind signing" ativo.
+  - O cartao no canto inferior esquerdo mostra se a Ledger esta ligada.
+
+
+PASSO 3B - TREZOR (so se a usares)
+----------------------------------
+  - Regras udev (uma vez):
+      sudo curl -fsSL https://data.trezor.io/udev/51-trezor.rules -o /etc/udev/rules.d/51-trezor.rules
+      sudo udevadm control --reload-rules && sudo udevadm trigger
+  - Fecha o Trezor Suite antes de usar a app.
+  - Trezor One: o PIN e escrito na app, numa grelha 3x3; os numeros
+    aparecem baralhados no ecra da Trezor.
+  - Model T / Safe 3 / Safe 5: PIN e passphrase no proprio dispositivo.
+  - Contas: m/44'/60'/0'/0/N (as mesmas do Trezor Suite).
+  - Suporte experimental: faz primeiro um swap muito pequeno.
+
+
+PASSO 3C - METAMASK, OKX, RABBY, COINBASE WALLET, TRUST WALLET
+---------------------------------------------------------------
+  - Precisas da extensao instalada no navegador (Chrome, Brave,
+    Firefox, Edge...). As apps de telemovel nao ligam por aqui.
+  - Ao escolher a carteira, a app abre uma pagina local
+    (http://127.0.0.1:47615/c/.../) no navegador por omissao.
+    Se a extensao estiver noutro navegador: "Copiar endereco da
+    pagina" e cola-o la.
+  - Na pagina carrega em "Ligar" e aprova na extensao.
+  - Deixa a pagina aberta enquanto usas a app (podes minimizar).
+  - Cada approve e cada swap aparecem na janela da extensao:
+    confirmas la. A conta usada e a selecionada na extensao.
+  - Protecao MEV: com estas carteiras o envio e feito pela propria
+    carteira, por isso o --protect do topcatswap nao se aplica.
+    Usa a protecao da carteira (MetaMask: Smart Transactions) ou
+    adiciona-lhe o RPC MEV Blocker: https://rpc.mevblocker.io
+  - Ledger ou Trezor ligadas ao MetaMask/Rabby tambem funcionam
+    por aqui (a extensao pede a confirmacao no dispositivo).
+
+
+PASSO 3D - CARTEIRAS IMPORTADAS POR CHAVE PRIVADA (1.0.7)
+---------------------------------------------------------
+  - No menu do arranque: "Importar chave privada" (ou Definicoes ->
+    Carteiras importadas). Escreve um nome, a chave privada (64
+    caracteres hex, com ou sem 0x) e uma password so desta carteira
+    (minimo 8 caracteres).
+  - Ate 5 carteiras. Para importar a sexta, remove uma em Definicoes.
+  - Ficam guardadas cifradas (formato keystore da Ethereum, scrypt)
+    em ~/.config/TopCatSwap/wallets/  (so tu podes ler).
+    A chave em claro nunca e gravada.
+  - Ao escolher uma carteira importada, a app pede a password DESSA
+    carteira. A Ledger, a Trezor e as extensoes nao pedem password.
+  - Fica desbloqueada ate fechares a app, carregares em "Bloquear",
+    escolheres outra carteira ou passarem 30 min sem uso.
+  - A assinatura e feita na app, sem confirmacao externa: reve bem o
+    resumo antes de "Confirmar e assinar". A protecao MEV (--protect)
+    funciona normalmente.
+  - Esqueceste a password? Remove a carteira e importa de novo a
+    chave privada. Guarda sempre a chave original noutro sitio seguro.
+  - Uma chave importada e menos segura do que uma carteira de
+    hardware: usa-a para valores que aceitas arriscar.
+
+
+PRIMEIRA UTILIZACAO
+-------------------
+  0. No arranque aparece "Escolhe a carteira": escolhe e carrega em
+     "Continuar". A ultima escolhida fica pre-selecionada. Para mudar
+     depois: "Mudar carteira" no canto inferior esquerdo.
+  1. Carteiras -> "Ler carteiras": Ledger/Trezor mostram as 5 primeiras
+     contas ("Mostrar as próximas 5" para ver mais); escolhe a que
+     queres usar ("Usar esta"). Nas carteiras do navegador aparecem
+     as contas autorizadas; a ativa e a selecionada na extensao.
+  2. Swap -> escolhe os tokens (ETH, WETH, USDC ou o endereco do
+     contrato de qualquer token), o montante e as opcoes.
+  3. "Analisar pools" -> escolhe a pool -> "Continuar".
+  4. Revê o resumo -> "Confirmar e assinar" -> confirma na carteira.
+
+  Faz o primeiro swap com um valor pequeno (ex.: 1 USDC por ETH).
+
+
+BUNDLES (novo na 1.1.1)
+-----------------------
+  Separador "Bundles": varias transacoes num unico bloco, enviadas
+  diretamente aos builders (Ethereum: Flashbots, BuilderNet, Titan,
+  beaverbuild; BSC: 48 Club, BlockRazor). Tudo ou nada, privado e sem
+  gas se falhar. Tipos: swap atomico (approve + swap no mesmo bloco),
+  varios swaps, a mesma troca em varias carteiras, e revogar
+  autorizacoes de varios tokens. Em "Tipos de pool" escolhes V2,
+  V3 e/ou V4 (na 1.1.2: podes excluir as pools V4). Funciona com Ledger, Trezor e
+  carteiras importadas (nao com as extensoes do navegador).
+  Na Arbitrum nao ha bundles (sem mempool publico).
+
+
+IDIOMA
+------
+  A app existe em Portugues (PT) e Ingles (US). Escolhe no menu do
+  arranque (PT | EN, canto superior direito) ou em Definicoes > Idioma.
+  A app reinicia para mudar o idioma; definicoes e carteiras mantem-se.
+  Bot de linha de comandos: topcatswap_comline_pt_1-1-2.js (PT) e
+  topcatswap_comline_us_1-1-2.js (EN), entregues a parte.
+
+
+DEFINICOES
+----------
+  Guardadas em  ~/.config/TopCatSwap/settings.json  (so tu podes ler).
+  Rede por omissao, slippage, velocidade, prazo do swap, protecao MEV,
+  RPC de cada rede, chave da The Graph, carteira escolhida, modo de
+  escolha da conta na Ledger e conta da Trezor.
+
+
+SEM GERAR O EXECUTAVEL (modo de desenvolvimento)
+------------------------------------------------
+  Depois de correr o build-ubuntu.sh uma vez, tambem podes abrir a app
+  diretamente a partir da pasta:   npm start
+
+  E o bot de linha de comandos continua disponivel:
+    node engine/topcatswap.js
+    node engine/topcatswap.js SWAP ETH USDC 0.01 --protect
+
+
+PROBLEMAS FREQUENTES
+--------------------
+  "Ledger nao detetada"           -> cabo, PIN, regras udev, fecha o Ledger Live.
+  "Abre a app Ethereum"           -> abre a app Ethereum na Ledger.
+  "Blind signing"                 -> app Ethereum -> Settings -> Blind signing.
+  "A simulacao do swap falhou"    -> o preco mudou ou o token cobra taxa:
+                                     aumenta o slippage (memes: so V2).
+  Erro ao compilar no build       -> sudo apt install build-essential
+                                     libudev-dev libusb-1.0-0-dev python3
+  O AppImage nao abre             -> sudo apt install libfuse2 (ou libfuse2t64)
+                                     e usa --no-sandbox
+  "Trezor nao detetada"           -> regras udev da Trezor, fecha o Trezor Suite.
+  "Nao encontrei a MetaMask"      -> a pagina abriu num navegador sem a
+                                     extensao: copia o endereco para o certo.
+  "A pagina de ligacao nao esta   -> "Abrir pagina" na barra lateral e deixa
+   aberta"                           o separador aberto.
+  "Password errada"               -> cada carteira importada tem a sua password.
+  "A carteira importada esta      -> "Desbloquear" na barra lateral (bloqueia
+   bloqueada"                        apos 30 min sem uso).
+=====================================================================

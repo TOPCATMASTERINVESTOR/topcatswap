@@ -1,0 +1,2125 @@
+{
+"Falta a variável de ambiente GRAPH_API_KEY.": [
+"engine/topcatswap.js"
+],
+"Corre o bot sem argumentos para ver como a definir.": [
+"engine/topcatswap.js"
+],
+"sem subgraph V4 para esta rede": [
+"engine/topcatswap.js"
+],
+"https://gateway.thegraph.com/api/": [
+"engine/topcatswap.js"
+],
+"https://ethereum-rpc.publicnode.com": [
+"engine/topcatswap.js"
+],
+"https://arbitrum-one-rpc.publicnode.com": [
+"engine/topcatswap.js"
+],
+"a Arbitrum não tem mempool público: o sequenciador ordena as transações": [
+"engine/topcatswap.js"
+],
+"por ordem de chegada, por isso os bots não as veem antes de serem incluídas": [
+"engine/topcatswap.js"
+],
+"https://bsc-rpc.publicnode.com": [
+"engine/topcatswap.js"
+],
+"https://bscscan.com": [
+"engine/topcatswap.js"
+],
+"https://bscscan.com/tx/": [
+"engine/topcatswap.js"
+],
+"a PulseChain não tem Uniswap com liquidez real (as memes estão na PulseX,": [
+"engine/topcatswap.js"
+],
+"outra DEX) e não há RPC privado anti-sandwich conhecido.": [
+"engine/topcatswap.js"
+],
+"a Robinhood Chain tem vários Universal Routers publicados e um router modificado": [
+"engine/topcatswap.js"
+],
+"com outro formato de swap V4; os endereços têm de ser confirmados on-chain antes de usar.": [
+"engine/topcatswap.js"
+],
+"a Arc usa USDC como token de gas e ainda não foi validada neste bot;": [
+"engine/topcatswap.js"
+],
+"os endereços têm de ser confirmados on-chain antes de usar.": [
+"engine/topcatswap.js"
+],
+"--chain inválido:": [
+"engine/topcatswap.js"
+],
+"(usa 1 Ethereum, 2 Arbitrum, 3 BSC, 4 PulseChain, 5 Robinhood, 6 Arc).": [
+"engine/topcatswap.js"
+],
+"ainda não é suportada:": [
+"engine/topcatswap.js"
+],
+"O RPC da": [
+"engine/topcatswap.js"
+],
+"não responde (": [
+"engine/topcatswap.js"
+],
+"Define outro com a variável": [
+"engine/topcatswap.js"
+],
+"O RPC configurado é da rede": [
+"engine/topcatswap.js"
+],
+", não da": [
+"engine/topcatswap.js"
+],
+"Verifica a variável": [
+"engine/topcatswap.js"
+],
+"fee normal da rede": [
+"engine/topcatswap.js"
+],
+"rápida, próximo bloco, +10%": [
+"engine/topcatswap.js"
+],
+"mais rápida, próximo bloco, +30%": [
+"engine/topcatswap.js"
+],
+"Podes usar o endereço do contrato (CA) ou estes nomes:": [
+"engine/topcatswap.js"
+],
+"Os nomes mudam com a rede (ex.: na BSC são BNB, WBNB e USDC).": [
+"engine/topcatswap.js"
+],
+"REDES (--chain=N, em qualquer modo)": [
+"engine/topcatswap.js"
+],
+"ainda não suportada": [
+"engine/topcatswap.js"
+],
+"--protect ignorado (sem mempool público)": [
+"engine/topcatswap.js"
+],
+"Por omissão: --chain=1 (Ethereum). Também aceita o nome ou o Chain ID": [
+"engine/topcatswap.js"
+],
+"MODO POOL  (só consulta, nunca assina nada)": [
+"engine/topcatswap.js"
+],
+"Sem AMOUNT_IN mostra as 3 maiores pools por TVL (V2 + V3 + V4),": [
+"engine/topcatswap.js"
+],
+"com fee, TVL e liquidez, e acrescenta a melhor de cada versão": [
+"engine/topcatswap.js"
+],
+"que não esteja no top 3 (até 5 pools).": [
+"engine/topcatswap.js"
+],
+"Com AMOUNT_IN simula a troca em cada pool e mostra também:": [
+"engine/topcatswap.js"
+],
+"price impact, diferença spot → execução, quantidade esperada,": [
+"engine/topcatswap.js"
+],
+"custo de gas em ETH e USD, e no fim a BEST EXECUTION": [
+"engine/topcatswap.js"
+],
+"(a pool que entrega mais tokens).": [
+"engine/topcatswap.js"
+],
+"ETH e WETH são tratados como equivalentes neste modo.": [
+"engine/topcatswap.js"
+],
+"Opções:": [
+"engine/topcatswap.js"
+],
+"--versions=v2       só V2 (ou v3, v4, ou combinações: --versions=v2,v3)": [
+"engine/topcatswap.js"
+],
+"MODO SWAP  (executa a troca, assinada na Ledger)": [
+"engine/topcatswap.js"
+],
+"node topcatswap.js SWAP TOKEN_IN TOKEN_OUT AMOUNT_IN [opções]": [
+"engine/topcatswap.js"
+],
+"TOKEN_IN    token que vendes  (": [
+"engine/topcatswap.js"
+],
+"ou endereço do contrato)": [
+"engine/topcatswap.js"
+],
+"TOKEN_OUT   token que recebes (": [
+"engine/topcatswap.js"
+],
+"AMOUNT_IN   quantidade de TOKEN_IN a vender (ex.: 0.01)": [
+"engine/topcatswap.js"
+],
+"--index=N           carteira N da Ledger (por omissão 0;": [
+"engine/topcatswap.js"
+],
+"vê os índices com: node topcatswap.js WALLET)": [
+"engine/topcatswap.js"
+],
+"--from=0xENDEREÇO   procura este endereço na Ledger": [
+"engine/topcatswap.js"
+],
+"--wallet=NOME       usa uma carteira IMPORTADA (nome ou endereço;": [
+"engine/topcatswap.js"
+],
+"vê-as com: node topcatswap.js WALLET IMPORTED).": [
+"engine/topcatswap.js"
+],
+"Pede a password dessa carteira. Sem --wallet usa a Ledger.": [
+"engine/topcatswap.js"
+],
+"--slippage=0.5      tolerância em %, de 0.01 a 50 (por omissão 0.5)": [
+"engine/topcatswap.js"
+],
+"--fee=1             1 = NORMAL  fee normal da rede (por omissão)": [
+"engine/topcatswap.js"
+],
+"--fee=2             2 = FAST    próximo bloco, +10% no preço de gas": [
+"engine/topcatswap.js"
+],
+"--fee=3             3 = FASTER  próximo bloco, +30% no preço de gas": [
+"engine/topcatswap.js"
+],
+"--protect           proteção contra sandwich e frontrun:": [
+"engine/topcatswap.js"
+],
+"envio privado via MEV Blocker (não passa pelo": [
+"engine/topcatswap.js"
+],
+"mempool público), prazo de 3 min e nova cotação": [
+"engine/topcatswap.js"
+],
+"imediatamente antes do swap": [
+"engine/topcatswap.js"
+],
+"--protect=flashbots usa o Flashbots Protect em vez do MEV Blocker": [
+"engine/topcatswap.js"
+],
+"--protect=48club. Na Arbitrum é ignorado com aviso.": [
+"engine/topcatswap.js"
+],
+"--chain=N           rede (ver REDES abaixo; por omissão Ethereum)": [
+"engine/topcatswap.js"
+],
+"--versions=v2       só considera pools V2 (ou v3, v4, ou v2,v3...)": [
+"engine/topcatswap.js"
+],
+"--path=44'/60'/0'/0/0   caminho de derivação explícito": [
+"engine/topcatswap.js"
+],
+"O que acontece:": [
+"engine/topcatswap.js"
+],
+"1. Análise igual ao modo POOL; escolhe a pool que entrega mais tokens.": [
+"engine/topcatswap.js"
+],
+"2. Lê o endereço na Ledger e verifica saldos e approvals.": [
+"engine/topcatswap.js"
+],
+"3. Mostra um resumo: pool, quantidade esperada, mínimo garantido": [
+"engine/topcatswap.js"
+],
+"e transações a assinar.": [
+"engine/topcatswap.js"
+],
+"4. Só avança se escreveres SIM. Cada transação é ainda confirmada": [
+"engine/topcatswap.js"
+],
+"no ecrã da Ledger.": [
+"engine/topcatswap.js"
+],
+"5. Simula o swap on-chain; se a simulação falhar, nada é enviado.": [
+"engine/topcatswap.js"
+],
+"6. Mostra o hash, o link do explorador da rede e os saldos finais.": [
+"engine/topcatswap.js"
+],
+"Transações possíveis (as approvals só quando necessárias):": [
+"engine/topcatswap.js"
+],
+"- approve TOKEN_IN → Permit2   (uma vez por token)": [
+"engine/topcatswap.js"
+],
+"- Permit2: autorizar o Universal Router (expira em 1h)": [
+"engine/topcatswap.js"
+],
+"são tokens diferentes:": [
+"engine/topcatswap.js"
+],
+"usa pools V4": [
+"engine/topcatswap.js"
+],
+"com": [
+"engine/topcatswap.js"
+],
+"nativo (e": [
+"engine/topcatswap.js"
+],
+"usa pools com": [
+"engine/topcatswap.js"
+],
+"Tokens com taxa na transferência (muitas memes): usa a V2": [
+"engine/topcatswap.js"
+],
+"(--versions=v2) e um --slippage superior à taxa do token.": [
+"engine/topcatswap.js"
+],
+"MODO WALLET  (só leitura, usa a Ledger para obter endereços)": [
+"engine/topcatswap.js"
+],
+"Endereços das primeiras": [
+"engine/topcatswap.js"
+],
+"carteiras da Ledger e o índice.": [
+"engine/topcatswap.js"
+],
+"Saldo de ETH (gas token) nas": [
+"engine/topcatswap.js"
+],
+"Saldo do token (nome ou endereço do contrato) nas": [
+"engine/topcatswap.js"
+],
+"com valor em USD quando há preço on-chain.": [
+"engine/topcatswap.js"
+],
+"O índice mostrado é o que usas no SWAP com --index=N.": [
+"engine/topcatswap.js"
+],
+"CARTEIRAS IMPORTADAS (chave privada, até": [
+"engine/topcatswap.js"
+],
+", partilhadas com a app):": [
+"engine/topcatswap.js"
+],
+"node topcatswap.js WALLET IMPORTED          lista as carteiras importadas": [
+"engine/topcatswap.js"
+],
+"node topcatswap.js WALLET IMPORT            importa uma chave privada": [
+"engine/topcatswap.js"
+],
+"(pede nome, chave e password)": [
+"engine/topcatswap.js"
+],
+"node topcatswap.js WALLET REMOVE NOME       remove uma carteira importada": [
+"engine/topcatswap.js"
+],
+"saldos das carteiras importadas": [
+"engine/topcatswap.js"
+],
+"Ledger ligada por USB, desbloqueada, com a app Ethereum aberta.": [
+"engine/topcatswap.js"
+],
+"Com --wallet=NOME (carteira importada) a Ledger não é precisa.": [
+"engine/topcatswap.js"
+],
+"— UNISWAP V2 + V3 + V4  (modos POOL, SWAP e WALLET)": [
+"engine/topcatswap.js"
+],
+"VARIÁVEIS DE AMBIENTE (opcionais)": [
+"engine/topcatswap.js"
+],
+"GRAPH_API_KEY   substitui a chave incluída no código": [
+"engine/topcatswap.js"
+],
+"RPC_URL         RPC da Ethereum (por omissão: publicnode)": [
+"engine/topcatswap.js"
+],
+"RPC_URL_42161   RPC da Arbitrum": [
+"engine/topcatswap.js"
+],
+"RPC_URL_56      RPC da BSC": [
+"engine/topcatswap.js"
+],
+"Ajuda de um só modo: node topcatswap.js POOL | SWAP | WALLET HELP": [
+"engine/topcatswap.js"
+],
+"Não consegui obter o preço": [
+"engine/topcatswap.js"
+],
+"saldos on-chain × preços on-chain": [
+"engine/topcatswap.js"
+],
+"V4 encontradas on-chain (pools padrão, sem hooks):": [
+"engine/topcatswap.js"
+],
+"Sem subgraph V4 para a": [
+"engine/topcatswap.js"
+],
+": a procurar pools V4 padrão on-chain...": [
+"engine/topcatswap.js"
+],
+"Subgraph V4 indisponível (": [
+"engine/topcatswap.js"
+],
+"A procurar pools V4 padrão on-chain...": [
+"engine/topcatswap.js"
+],
+"V4 encontradas no índice:": [
+"engine/topcatswap.js"
+],
+"quantidades do subgraph × preços on-chain": [
+"engine/topcatswap.js"
+],
+"V2: sem pair para este par de tokens.": [
+"engine/topcatswap.js"
+],
+"reservas on-chain × preços on-chain": [
+"engine/topcatswap.js"
+],
+"quantidade de saída zero (liquidez insuficiente)": [
+"engine/topcatswap.js"
+],
+"calculado pelas reservas; gas estimado; não inclui taxas de transferência do token": [
+"engine/topcatswap.js"
+],
+"A testar as": [
+"engine/topcatswap.js"
+],
+"V4 de maior TVL...": [
+"engine/topcatswap.js"
+],
+"— o hook pode aplicar outra no swap": [
+"engine/topcatswap.js"
+],
+"[pouco fiável, não usado no ranking]": [
+"engine/topcatswap.js"
+],
+"(negativo: spot de referência provavelmente desatualizado)": [
+"engine/topcatswap.js"
+],
+"OUT líquido de gas USD:    $": [
+"engine/topcatswap.js"
+],
+"--versions inválido:": [
+"engine/topcatswap.js"
+],
+"(usa v2, v3, v4 separados por vírgulas).": [
+"engine/topcatswap.js"
+],
+"Indica TOKEN_IN e TOKEN_OUT.": [
+"engine/topcatswap.js"
+],
+"Token inválido:": [
+"engine/topcatswap.js"
+],
+"(usa": [
+"engine/topcatswap.js"
+],
+"ou o endereço do contrato).": [
+"engine/topcatswap.js"
+],
+"TOKEN_IN e TOKEN_OUT são o mesmo token (": [
+"engine/topcatswap.js"
+],
+"contam como o mesmo).": [
+"engine/topcatswap.js"
+],
+"AMOUNT_IN inválido:": [
+"engine/topcatswap.js"
+],
+"(nativo, embrulhado em": [
+"engine/topcatswap.js"
+],
+"(nativo, desembrulhado de": [
+"engine/topcatswap.js"
+],
+"rede:": [
+"engine/topcatswap.js"
+],
+"Nota: no modo SWAP só se usam pools V4 com exatamente estas moedas.": [
+"engine/topcatswap.js"
+],
+"Para pools V4 com": [
+"engine/topcatswap.js"
+],
+"nativo usa": [
+"engine/topcatswap.js"
+],
+"; V4 inclui pools com": [
+"engine/topcatswap.js"
+],
+"nativo e com": [
+"engine/topcatswap.js"
+],
+"Aviso: sem preço USD on-chain para um dos tokens;": [
+"engine/topcatswap.js"
+],
+"algumas TVL podem ficar N/A ou vir do subgraph.": [
+"engine/topcatswap.js"
+],
+"Versões:": [
+"engine/topcatswap.js"
+],
+"MAIORES POOLS + MELHOR DE CADA VERSÃO": [
+"engine/topcatswap.js"
+],
+"Nenhuma das pools mostradas devolveu quote.": [
+"engine/topcatswap.js"
+],
+"Nota: descontando o gas, a melhor seria a #": [
+"engine/topcatswap.js"
+],
+"com $": [
+"engine/topcatswap.js"
+],
+"líquidos": [
+"engine/topcatswap.js"
+],
+"O modo POOL precisa de TOKEN_IN e TOKEN_OUT.": [
+"engine/topcatswap.js"
+],
+"NENHUMA TRANSACÇÃO FOI ASSINADA OU ENVIADA.": [
+"engine/topcatswap.js"
+],
+"os": [
+"engine/topcatswap.js"
+],
+"Carteira importada": [
+"engine/gui-engine.js",
+"engine/keystore.js",
+"engine/topcatswap.js",
+"renderer/app.js"
+],
+"Não há carteiras importadas. Importa uma com: node topcatswap.js WALLET IMPORT": [
+"engine/topcatswap.js"
+],
+"Carteira importada não encontrada:": [
+"engine/topcatswap.js"
+],
+". Disponíveis:": [
+"engine/topcatswap.js"
+],
+"Carteira importada:": [
+"engine/topcatswap.js"
+],
+"Password desta carteira:": [
+"engine/topcatswap.js"
+],
+"O ficheiro da carteira não corresponde ao endereço.": [
+"engine/topcatswap.js"
+],
+"Tenta de novo.": [
+"engine/topcatswap.js"
+],
+"Já tens": [
+"engine/keystore.js",
+"engine/topcatswap.js"
+],
+"carteiras importadas. Remove uma com: node topcatswap.js WALLET REMOVE NOME": [
+"engine/topcatswap.js"
+],
+"de": [
+"engine/topcatswap.js",
+"renderer/app.js"
+],
+"A chave fica cifrada com uma password exclusiva desta carteira em:": [
+"engine/topcatswap.js"
+],
+"Uma chave importada é menos segura do que uma Ledger: usa-a para valores que aceitas arriscar.": [
+"engine/topcatswap.js"
+],
+"Chave privada (não aparece no ecrã):": [
+"engine/topcatswap.js"
+],
+"Chave privada inválida: tem de ter 64 caracteres hexadecimais (com ou sem 0x).": [
+"engine/keystore.js",
+"engine/topcatswap.js",
+"renderer/app.js"
+],
+"Esta carteira (": [
+"engine/keystore.js",
+"engine/topcatswap.js"
+],
+") já está importada.": [
+"engine/keystore.js",
+"engine/topcatswap.js"
+],
+"Password desta carteira (mínimo 8 caracteres):": [
+"engine/topcatswap.js"
+],
+"A password tem de ter pelo menos 8 caracteres.": [
+"engine/topcatswap.js",
+"renderer/app.js"
+],
+"Repete a password:": [
+"engine/topcatswap.js"
+],
+"As passwords não coincidem. Nada foi guardado.": [
+"engine/topcatswap.js"
+],
+"Usa-a com: node topcatswap.js SWAP ETH USDC 0.01 --wallet=\\\"": [
+"engine/topcatswap.js"
+],
+"A chave cifrada é apagada deste computador. Os fundos continuam no endereço,": [
+"engine/topcatswap.js"
+],
+"mas só voltas a usá-lo importando de novo a chave privada.": [
+"engine/topcatswap.js"
+],
+"Escreve REMOVER para confirmar:": [
+"engine/topcatswap.js"
+],
+"Faltam as bibliotecas da Ledger. Instala com:": [
+"engine/topcatswap.js"
+],
+"Transação rejeitada na Ledger.": [
+"engine/topcatswap.js"
+],
+"A Ledger recusou por falta de 'Blind signing'.": [
+"engine/topcatswap.js"
+],
+"Na app Ethereum → Settings, ativa 'Blind signing' e tenta de novo.": [
+"engine/topcatswap.js"
+],
+"Abre a app Ethereum na Ledger e tenta de novo.": [
+"engine/topcatswap.js"
+],
+"A Ledger está bloqueada. Desbloqueia-a com o PIN e tenta de novo.": [
+"engine/topcatswap.js"
+],
+"A ligar à Ledger (desbloqueada, com a app Ethereum aberta)...": [
+"engine/topcatswap.js"
+],
+"Não consegui ligar à Ledger:": [
+"engine/topcatswap.js"
+],
+"nenhuma outra aplicação (Ledger Live, browser) a usar a Ledger,": [
+"engine/topcatswap.js"
+],
+"e regras udev instaladas no Ubuntu.": [
+"engine/topcatswap.js"
+],
+"--from inválido:": [
+"engine/topcatswap.js"
+],
+"corresponde a": [
+"engine/topcatswap.js"
+],
+", não a": [
+"engine/topcatswap.js"
+],
+"O endereço": [
+"engine/topcatswap.js"
+],
+"não foi encontrado nesta Ledger": [
+"engine/topcatswap.js"
+],
+"(índices 0-": [
+"engine/topcatswap.js"
+],
+"Usa --path=... com o caminho correto.": [
+"engine/topcatswap.js"
+],
+"--index inválido:": [
+"engine/topcatswap.js"
+],
+"--fee inválido:": [
+"engine/topcatswap.js"
+],
+"(usa 1, 2 ou 3).": [
+"engine/topcatswap.js"
+],
+"O envio segue pelo RPC normal; o --slippage continua a limitar a perda máxima.": [
+"engine/topcatswap.js"
+],
+"--protect inválido na": [
+"engine/topcatswap.js"
+],
+"(opções:": [
+"engine/topcatswap.js"
+],
+"Resposta inválida do RPC (HTTP": [
+"engine/topcatswap.js"
+],
+"não está a responder (": [
+"engine/topcatswap.js"
+],
+"ou --protect=": [
+"engine/topcatswap.js"
+],
+"A transação privada não foi incluída em": [
+"engine/topcatswap.js"
+],
+"Não foi publicada no mempool público. Pode ainda ser incluída ou ser descartada;": [
+"engine/topcatswap.js"
+],
+"confirma o estado antes de tentar de novo.": [
+"engine/topcatswap.js"
+],
+"] a pedir confirmação a": [
+"engine/topcatswap.js"
+],
+"carteira": [
+"engine/topcatswap.js"
+],
+"A carteira não devolveu um hash de transação válido.": [
+"engine/topcatswap.js"
+],
+"Enviada pela carteira:": [
+"engine/topcatswap.js"
+],
+"A transação não foi confirmada em": [
+"engine/topcatswap.js"
+],
+"Se a aceleraste ou cancelaste na carteira, o hash mudou: confirma o estado na carteira.": [
+"engine/topcatswap.js"
+],
+"A transação falhou (revertida):": [
+"engine/topcatswap.js"
+],
+"Custo máx. gas:": [
+"engine/topcatswap.js"
+],
+">>> Confirma a transação no ecrã da": [
+"engine/topcatswap.js"
+],
+"A assinatura não corresponde ao endereço da": [
+"engine/topcatswap.js"
+],
+". Transação NÃO enviada.": [
+"engine/topcatswap.js"
+],
+"Aviso: o RPC devolveu um hash diferente (": [
+"engine/topcatswap.js"
+],
+"Enviada em PRIVADO via": [
+"engine/topcatswap.js"
+],
+"(só aparece depois de incluída)": [
+"engine/topcatswap.js"
+],
+"A aguardar inclusão num bloco...": [
+"engine/topcatswap.js"
+],
+"A aguardar confirmação...": [
+"engine/topcatswap.js"
+],
+"As moedas da pool V4 não coincidem com TOKEN_IN/TOKEN_OUT.": [
+"engine/topcatswap.js"
+],
+"O modo SWAP precisa de TOKEN_IN TOKEN_OUT AMOUNT_IN.": [
+"engine/topcatswap.js"
+],
+"--slippage inválido: usa um valor entre": [
+"engine/topcatswap.js"
+],
+"Universal Router não encontrado em": [
+"engine/topcatswap.js"
+],
+"Nenhuma pool devolveu quote. Nada a executar.": [
+"engine/topcatswap.js"
+],
+"Mínimo a receber é zero. Montante demasiado pequeno.": [
+"engine/topcatswap.js"
+],
+"--wallet precisa do nome ou endereço da carteira importada (ex.: --wallet=Trading).": [
+"engine/topcatswap.js"
+],
+"carteira importada": [
+"engine/keystore.js",
+"engine/topcatswap.js"
+],
+"Carteira (importada):": [
+"engine/topcatswap.js"
+],
+"Carteira (Ledger):": [
+"engine/topcatswap.js"
+],
+"Saldo insuficiente: tens": [
+"engine/gui-engine.js",
+"engine/topcatswap.js"
+],
+", precisas de": [
+"engine/topcatswap.js"
+],
+"Carteira:": [
+"engine/topcatswap.js"
+],
+"Endereço da pool:": [
+"engine/topcatswap.js"
+],
+"Nota V2:                   cotação calculada pelas reservas; se o token cobrar taxa": [
+"engine/topcatswap.js"
+],
+"na transferência, o --slippage tem de ser superior à taxa.": [
+"engine/topcatswap.js"
+],
+"(pool com hook)": [
+"engine/topcatswap.js"
+],
+"Mínimo garantido:": [
+"engine/topcatswap.js"
+],
+"AVISO:                     slippage acima de": [
+"engine/topcatswap.js"
+],
+"%: perda máxima elevada.": [
+"engine/topcatswap.js"
+],
+"Usa --protect.": [
+"engine/topcatswap.js"
+],
+"Proteção MEV:              ATIVA — envio privado via": [
+"engine/topcatswap.js"
+],
+"prazo do swap": [
+"engine/topcatswap.js"
+],
+"min, nova cotação antes de assinar": [
+"engine/topcatswap.js"
+],
+"Proteção MEV:              desligada — envio pelo mempool público (usa --protect)": [
+"engine/topcatswap.js"
+],
+"Proteção MEV:              não aplicável na": [
+"engine/topcatswap.js"
+],
+"(sem mempool público)": [
+"engine/topcatswap.js"
+],
+"Preço de gas:": [
+"engine/topcatswap.js"
+],
+"Saldo": [
+"engine/topcatswap.js",
+"renderer/app.js"
+],
+"AVISO: o saldo de": [
+"engine/topcatswap.js"
+],
+"pode não chegar para o gas": [
+"engine/topcatswap.js"
+],
+"Transações a assinar na": [
+"engine/topcatswap.js"
+],
+"→ Permit2 (ilimitado, uma vez por token)": [
+"engine/topcatswap.js"
+],
+". Permit2: autorizar o Universal Router a gastar": [
+"engine/topcatswap.js"
+],
+"(expira em 1h)": [
+"engine/topcatswap.js"
+],
+"Com a carteira importada, cada transação é assinada logo após o SIM (sem outra confirmação).": [
+"engine/topcatswap.js"
+],
+"Se a Ledger recusar, ativa 'Blind signing' na app Ethereum → Settings.": [
+"engine/topcatswap.js"
+],
+"Escreve SIM para executar (qualquer outra coisa cancela):": [
+"engine/topcatswap.js"
+],
+"Cancelado. NENHUMA TRANSACÇÃO FOI ASSINADA OU ENVIADA.": [
+"engine/topcatswap.js"
+],
+"USDT: repor approve a 0": [
+"engine/gui-engine.js",
+"engine/topcatswap.js"
+],
+"A confirmar a cotação antes do swap...": [
+"engine/topcatswap.js"
+],
+"A nova cotação falhou; swap NÃO enviado. Motivo:": [
+"engine/topcatswap.js"
+],
+"Cotação atual:": [
+"engine/topcatswap.js"
+],
+"O preço piorou abaixo do mínimo garantido (": [
+"engine/gui-engine.js",
+"engine/topcatswap.js"
+],
+"). Swap NÃO enviado. As approvals feitas mantêm-se.": [
+"engine/topcatswap.js"
+],
+"A simular o swap on-chain...": [
+"engine/topcatswap.js"
+],
+"A simulação do swap falhou; transação NÃO enviada.": [
+"engine/topcatswap.js"
+],
+"(Pode ser o preço ter mudado acima do slippage. As approvals feitas mantêm-se.)": [
+"engine/topcatswap.js"
+],
+"Simulação OK.": [
+"engine/topcatswap.js"
+],
+"SWAP CONCLUÍDO": [
+"engine/topcatswap.js"
+],
+"(o saldo de": [
+"engine/topcatswap.js"
+],
+"já desconta o gas pago)": [
+"engine/topcatswap.js"
+],
+"Indica a carteira: node topcatswap.js WALLET REMOVE NOME": [
+"engine/topcatswap.js"
+],
+"Nenhuma. Importa com: node topcatswap.js WALLET IMPORT": [
+"engine/topcatswap.js"
+],
+"No modo SWAP usa --wallet=NOME (ou o endereço, ou o número).": [
+"engine/topcatswap.js"
+],
+"Não consegui ler o token": [
+"engine/topcatswap.js"
+],
+". É um contrato ERC20 na Ethereum mainnet?": [
+"engine/topcatswap.js"
+],
+"Não há carteiras importadas.": [
+"engine/topcatswap.js"
+],
+"Índice": [
+"engine/topcatswap.js",
+"renderer/app.js"
+],
+"No modo SWAP usa --index=N (ou --from=ENDEREÇO) para escolher a carteira.": [
+"engine/topcatswap.js"
+],
+"(sem preço USD on-chain para este token)": [
+"engine/topcatswap.js"
+],
+"A carteira importada está bloqueada. Desbloqueia-a com a password (botão na barra lateral).": [
+"engine/gui-engine.js"
+],
+"dinâmica": [
+"engine/gui-engine.js"
+],
+"ainda não está ligada. Abre a página de ligação (barra lateral) e carrega em Ligar.": [
+"engine/gui-engine.js"
+],
+"Endereço de token inválido.": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"Não consegui ler este token. É um contrato ERC20 nesta rede?": [
+"engine/gui-engine.js"
+],
+"· com hook": [
+"engine/gui-engine.js"
+],
+"sem cotação": [
+"engine/gui-engine.js"
+],
+"Escolhe pelo menos uma versão da Uniswap.": [
+"engine/gui-engine.js"
+],
+"Análise": [
+"engine/gui-engine.js"
+],
+"Faz primeiro a análise de pools.": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"Esta pool não tem cotação. Escolhe outra.": [
+"engine/gui-engine.js"
+],
+"Slippage inválido: usa um valor entre 0.01 e 50%.": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"O mínimo a receber é zero: o montante é demasiado pequeno.": [
+"engine/gui-engine.js"
+],
+"Leitura da carteira": [
+"engine/gui-engine.js"
+],
+"e precisas de": [
+"engine/gui-engine.js"
+],
+"O saldo de": [
+"engine/gui-engine.js"
+],
+"pode não chegar para o gas (estimativa ~": [
+"engine/gui-engine.js"
+],
+"Slippage acima de": [
+"engine/gui-engine.js"
+],
+"%: a perda máxima é elevada.": [
+"engine/gui-engine.js"
+],
+"Liga a proteção MEV.": [
+"engine/gui-engine.js"
+],
+"Com a": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"o envio é feito pela própria carteira, por isso a proteção MEV do topcatswap": [
+"engine/gui-engine.js"
+],
+"não se aplica. Protege-te na carteira: MetaMask → Smart Transactions ativo, ou adiciona o RPC": [
+"engine/gui-engine.js"
+],
+"MEV Blocker (https://rpc.mevblocker.io) à carteira, e usa um slippage baixo.": [
+"engine/gui-engine.js"
+],
+"Cotação V2 calculada pelas reservas: se o token cobrar taxa na venda, o slippage tem de ser superior à taxa.": [
+"engine/gui-engine.js"
+],
+"Esta pool V4 tem um hook (código de terceiros):": [
+"engine/gui-engine.js"
+],
+"ligada": [
+"engine/connect/connect.js",
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"Confirmar a carteira": [
+"engine/gui-engine.js"
+],
+"Aprovar": [
+"engine/gui-engine.js"
+],
+"Autorizar o Universal Router": [
+"engine/gui-engine.js"
+],
+"Limitado ao montante · expira em 1h": [
+"engine/gui-engine.js"
+],
+"Confirmar a cotação": [
+"engine/gui-engine.js"
+],
+"Nova cotação antes de assinar": [
+"engine/gui-engine.js"
+],
+"Simulação on-chain": [
+"engine/gui-engine.js"
+],
+"Se falhar, nada é enviado": [
+"engine/gui-engine.js"
+],
+"Confirmação na": [
+"engine/gui-engine.js"
+],
+"Confirma na janela da extensão": [
+"engine/gui-engine.js"
+],
+"Com a chave importada (": [
+"engine/gui-engine.js"
+],
+"Envio privado": [
+"engine/gui-engine.js"
+],
+"Envio": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"· fora do mempool público": [
+"engine/gui-engine.js"
+],
+"Mempool público": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"Inclusão num bloco": [
+"engine/gui-engine.js"
+],
+"À espera da confirmação": [
+"engine/gui-engine.js"
+],
+"Aprovar no Permit2": [
+"engine/gui-engine.js"
+],
+"Não é preciso: vendes": [
+"engine/gui-engine.js"
+],
+"Já aprovado": [
+"engine/gui-engine.js"
+],
+"Limitado a": [
+"engine/gui-engine.js"
+],
+"· expira em 1h": [
+"engine/gui-engine.js"
+],
+"Já autorizado": [
+"engine/gui-engine.js"
+],
+"Normal": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"Rápido (+10%)": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"Mais rápido (+30%)": [
+"engine/gui-engine.js",
+"renderer/app.js"
+],
+"Não há nenhum swap preparado.": [
+"engine/gui-engine.js"
+],
+"Já há um swap em curso.": [
+"engine/gui-engine.js"
+],
+"Confirma na janela da": [
+"engine/gui-engine.js"
+],
+"A assinar com a chave importada…": [
+"engine/gui-engine.js"
+],
+"Confirma no ecrã da": [
+"engine/gui-engine.js"
+],
+"A ligar à": [
+"engine/gui-engine.js"
+],
+") não é a do resumo (": [
+"engine/gui-engine.js"
+],
+"). Volta ao resumo para o preparar de novo.": [
+"engine/gui-engine.js"
+],
+"Enviada · à espera do bloco": [
+"engine/gui-engine.js"
+],
+"Já não era preciso": [
+"engine/gui-engine.js"
+],
+"A cotar de novo…": [
+"engine/gui-engine.js"
+],
+"A nova cotação falhou; nada foi enviado. Motivo:": [
+"engine/gui-engine.js"
+],
+"· acima do mínimo": [
+"engine/gui-engine.js"
+],
+"A simulação do swap falhou; nada foi enviado. Motivo:": [
+"engine/gui-engine.js"
+],
+"(pode ser o preço ter mudado acima do slippage; as autorizações feitas mantêm-se).": [
+"engine/gui-engine.js"
+],
+"À espera do bloco…": [
+"engine/gui-engine.js"
+],
+"já desconta o gas pago.": [
+"engine/gui-engine.js"
+],
+"Ainda não importaste nenhuma carteira.": [
+"engine/gui-engine.js"
+],
+"ainda não está ligada. Abre a página de ligação e carrega em Ligar.": [
+"engine/gui-engine.js"
+],
+"Rede errada (": [
+"engine/gui-engine.js"
+],
+"Pasta das carteiras não configurada.": [
+"engine/keystore.js"
+],
+"ficheiro inválido": [
+"engine/keystore.js"
+],
+"Chave privada inválida.": [
+"engine/keystore.js"
+],
+"A password tem de ter pelo menos": [
+"engine/keystore.js"
+],
+"carteiras importadas. Remove uma em Definições antes de importar outra.": [
+"engine/keystore.js"
+],
+"Esta carteira importada já não existe.": [
+"engine/keystore.js"
+],
+"Não consegui abrir a carteira:": [
+"engine/keystore.js"
+],
+"O ficheiro da carteira não corresponde ao endereço. Nada foi desbloqueado.": [
+"engine/keystore.js"
+],
+"A carteira importada está bloqueada. Desbloqueia-a com a password e tenta de novo.": [
+"engine/keystore.js"
+],
+"Falta a biblioteca da Trezor (@trezor/connect). Corre de novo o ./build-ubuntu.sh. (": [
+"engine/trezor.js"
+],
+"Não consegui iniciar a ligação à Trezor:": [
+"engine/trezor.js"
+],
+"Trezor não detetada. Liga o cabo USB, desbloqueia-a e confirma as regras udev da Trezor.": [
+"engine/trezor.js"
+],
+"A Trezor está a ser usada noutra aplicação (Trezor Suite, navegador). Fecha-a e tenta de novo.": [
+"engine/trezor.js"
+],
+"Sem ligação USB à Trezor. Abre o Trezor Suite (traz o Trezor Bridge) ou instala as regras udev, e tenta de novo.": [
+"engine/trezor.js"
+],
+"Operação rejeitada ou cancelada na Trezor. Nada foi enviado.": [
+"engine/trezor.js"
+],
+"com.okex.wallet": [
+"engine/wallet-bridge.js"
+],
+"com.coinbase.wallet": [
+"engine/wallet-bridge.js"
+],
+"com.trustwallet.app": [
+"engine/wallet-bridge.js"
+],
+"não encontrado": [
+"engine/wallet-bridge.js"
+],
+"método": [
+"engine/wallet-bridge.js"
+],
+"Erro da carteira": [
+"engine/wallet-bridge.js"
+],
+"Rejeitaste o pedido na": [
+"engine/wallet-bridge.js"
+],
+"não autorizou esta conta. Volta a ligar a carteira na página de ligação.": [
+"engine/wallet-bridge.js"
+],
+"Já há um pedido pendente na": [
+"engine/wallet-bridge.js"
+],
+": abre a extensão e responde-lhe.": [
+"engine/wallet-bridge.js"
+],
+"A página de ligação da": [
+"engine/wallet-bridge.js"
+],
+"não está aberta. Usa \\\"Abrir página\\\" na barra lateral e deixa-a aberta no navegador.": [
+"engine/wallet-bridge.js"
+],
+"não respondeu a tempo. Confirma que a página de ligação está aberta e responde na extensão.": [
+"engine/wallet-bridge.js"
+],
+"A carteira continua noutra rede. Muda para": [
+"engine/wallet-bridge.js"
+],
+"na extensão e tenta de novo.": [
+"engine/wallet-bridge.js"
+],
+"Pronto. Volta à app topcatswap: os swaps vão ser confirmados nesta carteira.": [
+"engine/connect/connect.js"
+],
+"Ligar a": [
+"engine/connect/connect.js",
+"renderer/app.js"
+],
+"Carrega em Ligar e aprova o pedido na janela da extensão.": [
+"engine/connect/connect.js"
+],
+"Não encontrei a": [
+"engine/connect/connect.js"
+],
+"Esta página está aberta num navegador sem a extensão": [
+"engine/connect/connect.js"
+],
+". Instala-a, ou abre esta página no navegador onde a tens (na app: Copiar endereço). Também podes usar uma das carteiras encontradas:": [
+"engine/connect/connect.js"
+],
+"Não há nenhuma extensão de carteira neste navegador. Instala a": [
+"engine/connect/connect.js"
+],
+", ou abre esta página no navegador onde a tens (na app: Copiar endereço), e recarrega.": [
+"engine/connect/connect.js"
+],
+"Usar": [
+"engine/connect/connect.js",
+"renderer/app.js"
+],
+"não é a escolhida na app": [
+"engine/connect/connect.js"
+],
+"Conta mudou para": [
+"engine/connect/connect.js"
+],
+"Carteira desligou esta página": [
+"engine/connect/connect.js"
+],
+"Rede mudou para": [
+"engine/connect/connect.js"
+],
+"A carteira não devolveu nenhuma conta.": [
+"engine/connect/connect.js"
+],
+"ligada ·": [
+"engine/connect/connect.js"
+],
+"Pedido rejeitado na carteira.": [
+"engine/connect/connect.js"
+],
+"Método não permitido:": [
+"engine/connect/connect.js"
+],
+"A carteira ainda não está ligada nesta página. Carrega em Ligar.": [
+"engine/connect/connect.js"
+],
+"A pedir confirmação de uma transação na": [
+"engine/connect/connect.js"
+],
+"A pedir a troca de rede…": [
+"engine/connect/connect.js"
+],
+"Transação enviada ·": [
+"engine/connect/connect.js"
+],
+"Transação rejeitada na carteira": [
+"engine/connect/connect.js"
+],
+"A carteira devolveu um erro": [
+"engine/connect/connect.js"
+],
+"Sem ligação à app topcatswap. Abre a app (ou volta a abrir esta página a partir dela).": [
+"engine/connect/connect.js"
+],
+"Página expirada": [
+"engine/connect/connect.js"
+],
+"A app topcatswap foi fechada ou reiniciada. Abre de novo a página de ligação a partir da app.": [
+"engine/connect/connect.js"
+],
+"Não foi possível iniciar a interface": [
+"renderer/app.js"
+],
+"O erro também fica em ~/.config/TopCatSwap/topcatswap.log. Ctrl+Shift+I abre as ferramentas de diagnóstico.": [
+"renderer/app.js"
+],
+"A ponte entre a janela e o motor (preload.js) não carregou: window.api não existe.": [
+"renderer/app.js"
+],
+"window.api indisponível": [
+"renderer/app.js"
+],
+"Hardware · ligada por USB. Contas do Ledger Live.": [
+"renderer/app.js"
+],
+"Hardware · ligada por USB. Contas do Trezor Suite.": [
+"renderer/app.js"
+],
+"Extensão do navegador. Também funciona com Ledger/Trezor ligadas ao MetaMask.": [
+"renderer/app.js"
+],
+"Extensão do navegador.": [
+"renderer/app.js"
+],
+"Extensão do navegador. Mostra a simulação antes de assinar.": [
+"renderer/app.js"
+],
+"Extensão Coinbase Wallet (carteira própria, não a conta da exchange).": [
+"renderer/app.js"
+],
+"Chave privada importada, cifrada neste computador com a sua password.": [
+"renderer/app.js"
+],
+"Endereço fixo": [
+"renderer/app.js"
+],
+"Valor inválido: usa um número entre 0.01 e 50.": [
+"renderer/app.js"
+],
+"Acima de 5%: perda máxima elevada. Liga a proteção MEV.": [
+"renderer/app.js"
+],
+"% da cotação.": [
+"renderer/app.js"
+],
+"(em breve)": [
+"renderer/app.js"
+],
+"Rede": [
+"renderer/app.js"
+],
+"Cancelar": [
+"renderer/app.js"
+],
+"\" aria-label=\"Token a": [
+"renderer/app.js"
+],
+". Mudar\">": [
+"renderer/app.js"
+],
+"Saldo:": [
+"renderer/app.js"
+],
+"ligar a": [
+"renderer/app.js"
+],
+"ler a carteira": [
+"renderer/app.js"
+],
+"Saldo indisponível": [
+"renderer/app.js"
+],
+"Máx": [
+"renderer/app.js"
+],
+"Serviço de envio privado": [
+"renderer/app.js"
+],
+"Slippage personalizado (0.01 a 50%)": [
+"renderer/app.js"
+],
+"fee da rede": [
+"renderer/app.js"
+],
+"Rápido": [
+"renderer/app.js"
+],
+"Mais rápido": [
+"renderer/app.js"
+],
+"Proteção MEV": [
+"renderer/app.js"
+],
+"o envio é feito pela própria carteira. Ativa a proteção na carteira (MetaMask: Smart Transactions) ou adiciona-lhe o RPC MEV Blocker:": [
+"renderer/app.js"
+],
+"Envio privado contra sandwich e frontrun": [
+"renderer/app.js"
+],
+"Não aplicável na": [
+"renderer/app.js"
+],
+"Escolhe os tokens e o montante. O bot compara V2, V3 e V4 e escolhe a pool que entrega mais.": [
+"renderer/app.js"
+],
+"A quantidade a receber é calculada na análise, cotando cada pool com o montante real.": [
+"renderer/app.js"
+],
+"Opções": [
+"renderer/app.js"
+],
+"Slippage máximo": [
+"renderer/app.js"
+],
+"Memes com taxa na venda: usa um valor acima da taxa do token.": [
+"renderer/app.js"
+],
+"Velocidade": [
+"renderer/app.js"
+],
+"Versões da Uniswap": [
+"renderer/app.js"
+],
+"Sequenciador (sem mempool público)": [
+"renderer/app.js"
+],
+"Prazo do swap": [
+"renderer/app.js"
+],
+"Carteira": [
+"renderer/app.js"
+],
+"Análise de pools": [
+"renderer/app.js"
+],
+"e a cotar cada uma com o montante real. Podes cancelar para mudar os tokens, o montante ou as versões.": [
+"renderer/app.js"
+],
+"Cancelar e voltar ao Swap": [
+"renderer/app.js"
+],
+"Compara as pools da Uniswap para um par de tokens.": [
+"renderer/app.js"
+],
+"Ainda não há nenhuma análise": [
+"renderer/app.js"
+],
+"Escolhe os tokens e o montante no ecrã Swap e carrega em Analisar pools.": [
+"renderer/app.js"
+],
+"Ir para o Swap": [
+"renderer/app.js"
+],
+"É a melhor execução: entrega mais": [
+"renderer/app.js"
+],
+"a menos do que a melhor execução.": [
+"renderer/app.js"
+],
+"Melhor execução": [
+"renderer/app.js"
+],
+"Líquido de gas": [
+"renderer/app.js"
+],
+">Continuar com esta pool": [
+"renderer/app.js"
+],
+"Nenhuma pool devolveu cotação para este montante. Experimenta outro montante ou outras versões.": [
+"renderer/app.js"
+],
+"Voltar ao swap": [
+"renderer/app.js"
+],
+"cotadas com o montante real": [
+"renderer/app.js"
+],
+"Atualizar cotações": [
+"renderer/app.js"
+],
+"Ordenadas pela quantidade recebida · escolhe uma linha para a usar": [
+"renderer/app.js"
+],
+"Líquido": [
+"renderer/app.js"
+],
+"Continuar para o resumo": [
+"renderer/app.js"
+],
+"A ler a carteira na Ledger…": [
+"renderer/app.js"
+],
+"Desbloqueia a Ledger e abre a app Ethereum. Fecha o Ledger Live se estiver aberto.": [
+"renderer/app.js"
+],
+"A ler a carteira importada…": [
+"renderer/app.js"
+],
+"A ler saldos e autorizações na rede.": [
+"renderer/app.js"
+],
+"A ler a carteira na Trezor…": [
+"renderer/app.js"
+],
+"Liga e desbloqueia a Trezor. Fecha o Trezor Suite se estiver aberto. Se pedir PIN ou passphrase, responde no ecrã que aparece.": [
+"renderer/app.js"
+],
+"A ler a conta na": [
+"renderer/app.js"
+],
+"A página de ligação tem de estar aberta no navegador.": [
+"renderer/app.js"
+],
+"Resumo do swap": [
+"renderer/app.js"
+],
+"Cancelar e voltar à análise": [
+"renderer/app.js"
+],
+"Voltar à análise": [
+"renderer/app.js"
+],
+"Não foi possível preparar o swap": [
+"renderer/app.js"
+],
+"Desbloquear": [
+"renderer/app.js"
+],
+"Tentar de novo": [
+"renderer/app.js"
+],
+"Proteção MEV ativa": [
+"renderer/app.js"
+],
+"Sem proteção MEV": [
+"renderer/app.js"
+],
+"Proteção MEV não aplicável": [
+"renderer/app.js"
+],
+"Revê tudo antes de assinar. Nada é enviado até confirmares aqui e na": [
+"renderer/app.js"
+],
+"Mínimo garantido": [
+"renderer/app.js"
+],
+"(a carteira escolhe o RPC)": [
+"renderer/app.js"
+],
+"· nova cotação antes de assinar": [
+"renderer/app.js"
+],
+"Sequenciador da rede (sem mempool público)": [
+"renderer/app.js"
+],
+"Prazo": [
+"renderer/app.js"
+],
+"Transações a assinar": [
+"renderer/app.js"
+],
+"Confirmar e assinar": [
+"renderer/app.js"
+],
+"Vais ter de confirmar a transação no ecrã da Ledger. O \\\"Blind signing\\\" tem de estar ativo na app Ethereum.": [
+"renderer/app.js"
+],
+"Vais ter de confirmar a transação no ecrã da Trezor (Trezor Suite fechado).": [
+"renderer/app.js"
+],
+"Ao carregares em Confirmar, a app assina logo com a chave importada, sem outra confirmação. Revê bem o resumo.": [
+"renderer/app.js"
+],
+"Cada transação abre uma janela da": [
+"renderer/app.js"
+],
+"no navegador: confirma lá. Deixa a página de ligação aberta.": [
+"renderer/app.js"
+],
+"Não há nenhum swap em curso.": [
+"renderer/app.js"
+],
+"A assinar com a chave importada": [
+"renderer/app.js"
+],
+"À espera da confirmação na": [
+"renderer/app.js"
+],
+"À espera da assinatura na": [
+"renderer/app.js"
+],
+"Confirmar transação": [
+"renderer/app.js"
+],
+"Confirma a transação na": [
+"renderer/app.js"
+],
+"Confirma a transação na tua": [
+"renderer/app.js"
+],
+"Mantém a página de ligação aberta": [
+"renderer/app.js"
+],
+"Mantém a": [
+"renderer/app.js"
+],
+"ligada e desbloqueada": [
+"renderer/app.js"
+],
+"Nada foi enviado depois do passo marcado a vermelho.": [
+"renderer/app.js"
+],
+"Cada transação é assinada aqui com a chave importada e enviada": [
+"renderer/app.js"
+],
+"em privado.": [
+"renderer/app.js"
+],
+"para a rede.": [
+"renderer/app.js"
+],
+"Abre a janela da extensão no navegador (se não abrir sozinha, clica no ícone da": [
+"renderer/app.js"
+],
+") e confirma. Se rejeitares, nada é enviado.": [
+"renderer/app.js"
+],
+"Percorre os ecrãs com os botões e aprova em \\\"Accept and send\\\". Se rejeitares, nada é enviado.": [
+"renderer/app.js"
+],
+"Confere o destino e o valor no ecrã da Trezor e confirma. Se rejeitares, nada é enviado.": [
+"renderer/app.js"
+],
+"Cada transação aparece na janela da": [
+"renderer/app.js"
+],
+"antes de ser enviada.": [
+"renderer/app.js"
+],
+"Cada transação é mostrada no ecrã da": [
+"renderer/app.js"
+],
+"antes de ser assinada.": [
+"renderer/app.js"
+],
+"Assinar e enviar": [
+"renderer/app.js"
+],
+"Envio privado ·": [
+"renderer/app.js"
+],
+"Não feches a app enquanto o swap estiver em curso.": [
+"renderer/app.js"
+],
+"Voltar ao resumo": [
+"renderer/app.js"
+],
+"Swap concluído": [
+"renderer/app.js"
+],
+"Ainda não há nenhum swap concluído.": [
+"renderer/app.js"
+],
+"Transação": [
+"renderer/app.js"
+],
+"Copiar hash": [
+"renderer/app.js"
+],
+"Carrega em Ler carteiras para ver os saldos das carteiras importadas.": [
+"renderer/app.js"
+],
+"Liga a Ledger, desbloqueia-a e abre a app Ethereum. Depois carrega em Ler carteiras.": [
+"renderer/app.js"
+],
+"Liga a Trezor e desbloqueia-a (fecha o Trezor Suite). Depois carrega em Ler carteiras.": [
+"renderer/app.js"
+],
+"Liga a": [
+"renderer/app.js"
+],
+"na página de ligação do navegador. Depois carrega em Ler carteiras.": [
+"renderer/app.js"
+],
+"A ler as carteiras na": [
+"renderer/app.js"
+],
+"Ler carteiras": [
+"renderer/app.js"
+],
+"Copiar endereço": [
+"renderer/app.js"
+],
+"Carteira ativa": [
+"renderer/app.js"
+],
+"Usar esta": [
+"renderer/app.js"
+],
+"Escolhe-a na extensão": [
+"renderer/app.js"
+],
+">Importar chave privada (": [
+"renderer/app.js"
+],
+". Para usar outra, muda de conta na extensão.": [
+"renderer/app.js"
+],
+"Mostrar as próximas": [
+"renderer/app.js"
+],
+"Total nas": [
+"renderer/app.js"
+],
+"As tuas carteiras importadas (até": [
+"renderer/app.js"
+],
+"). Cada uma pede a sua password ao ser usada.": [
+"renderer/app.js"
+],
+"As contas do Ledger Live, de": [
+"renderer/app.js"
+],
+"em": [
+"renderer/app.js"
+],
+". Escolhe a carteira ativa para os swaps.": [
+"renderer/app.js"
+],
+"As contas do Trezor Suite (m/44'/60'/0'/0/N), de": [
+"renderer/app.js"
+],
+". Escolhe a carteira ativa.": [
+"renderer/app.js"
+],
+"As contas que autorizaste na": [
+"renderer/app.js"
+],
+". A ativa é a selecionada na extensão.": [
+"renderer/app.js"
+],
+"Os endereços são os mesmos em todas as redes; os saldos são lidos na rede escolhida em cima. Usas a conta no formato legacy do MetaMask? Escolhe \\\"Procurar pelo endereço\\\" em Definições › Ledger.": [
+"renderer/app.js"
+],
+"Os endereços são os mesmos em todas as redes; os saldos são lidos na rede escolhida em cima.": [
+"renderer/app.js"
+],
+"Ligação": [
+"renderer/app.js"
+],
+"Saldo de": [
+"renderer/app.js"
+],
+"Outro token (endereço do contrato)": [
+"renderer/app.js"
+],
+"em breve": [
+"renderer/app.js"
+],
+"proteção MEV:": [
+"renderer/app.js"
+],
+"serviços": [
+"renderer/app.js"
+],
+"sem mempool público": [
+"renderer/app.js"
+],
+"Conta do Ledger Live": [
+"renderer/app.js"
+],
+"Pelo índice: 0 = Ethereum 1": [
+"renderer/app.js"
+],
+"Procurar pelo endereço": [
+"renderer/app.js"
+],
+"Procura nos índices 0–9, Ledger Live e legacy": [
+"renderer/app.js"
+],
+"Para utilizadores avançados": [
+"renderer/app.js"
+],
+"Endereço": [
+"renderer/app.js"
+],
+"Caminho de derivação": [
+"renderer/app.js"
+],
+"Definições": [
+"renderer/app.js"
+],
+"Predefinições usadas em cada swap. Podes mudá-las no ecrã do swap.": [
+"renderer/app.js"
+],
+"Repor predefinições": [
+"renderer/app.js"
+],
+"Guardar": [
+"renderer/app.js"
+],
+"Rede por omissão": [
+"renderer/app.js"
+],
+"Equivale à opção --chain.": [
+"renderer/app.js"
+],
+"Predefinições do swap": [
+"renderer/app.js"
+],
+"Prazo do swap (minutos)": [
+"renderer/app.js"
+],
+"Tempo máximo para o swap entrar num bloco; depois disso é recusado pela rede. Por omissão 3 minutos (1 a 60).": [
+"renderer/app.js"
+],
+"Proteção MEV ligada por omissão": [
+"renderer/app.js"
+],
+"Ignorada nas redes sem mempool público (Arbitrum)": [
+"renderer/app.js"
+],
+"Serviço na Ethereum": [
+"renderer/app.js"
+],
+"Serviço na BSC": [
+"renderer/app.js"
+],
+"Ligações": [
+"renderer/app.js"
+],
+"RPC usados para leituras e para envio sem proteção. Vazio = o RPC por omissão.": [
+"renderer/app.js"
+],
+"Vazio = chave incluída no bot": [
+"renderer/app.js"
+],
+"Chave da The Graph": [
+"renderer/app.js"
+],
+"Usada para descobrir as pools V4. Fica guardada só neste computador.": [
+"renderer/app.js"
+],
+"Testar ligações": [
+"renderer/app.js"
+],
+"As ligações são testadas com os valores guardados.": [
+"renderer/app.js"
+],
+"Mudar carteira": [
+"renderer/app.js"
+],
+"Até": [
+"renderer/app.js"
+],
+", cada uma cifrada com a sua password neste computador.": [
+"renderer/app.js"
+],
+"Remover": [
+"renderer/app.js"
+],
+"Nenhuma carteira importada.": [
+"renderer/app.js"
+],
+"Conta (índice: 0 = conta 1 do Trezor Suite)": [
+"renderer/app.js"
+],
+"Suporte experimental. Caminho m/44'/60'/0'/0/N. Trezor One: o PIN é escrito na app com a grelha baralhada; Model T e Safe: PIN e passphrase no próprio dispositivo.": [
+"renderer/app.js"
+],
+"Ligar carteira": [
+"renderer/app.js"
+],
+"A carteira escolhida (": [
+"renderer/app.js"
+],
+") liga por USB: não precisa da página do navegador.": [
+"renderer/app.js"
+],
+"Página de ligação aberta no navegador": [
+"renderer/app.js"
+],
+"Aberta · mantém o separador aberto": [
+"renderer/app.js"
+],
+"Carrega em Abrir página no navegador": [
+"renderer/app.js"
+],
+"Extensão:": [
+"renderer/app.js"
+],
+"Não encontrada; o navegador tem:": [
+"renderer/app.js"
+],
+"Não encontrada nesse navegador. Instala a extensão ou abre a página noutro navegador": [
+"renderer/app.js"
+],
+"Conta ligada": [
+"renderer/app.js"
+],
+"Na página, carrega em Ligar e aprova na extensão": [
+"renderer/app.js"
+],
+"A extensão está noutra rede; a app pede a troca para": [
+"renderer/app.js"
+],
+"vive no navegador. A app abre uma página local (só neste computador) que liga a extensão à app.": [
+"renderer/app.js"
+],
+"Abrir a página outra vez": [
+"renderer/app.js"
+],
+"Abrir página no navegador": [
+"renderer/app.js"
+],
+"Copiar endereço da página": [
+"renderer/app.js"
+],
+"A página abre no navegador por omissão. Se a": [
+"renderer/app.js"
+],
+"estiver noutro navegador, copia o endereço e cola-o lá.": [
+"renderer/app.js"
+],
+"Cada approve e cada swap aparecem na janela da": [
+"renderer/app.js"
+],
+": confirmas lá. A chave nunca sai da extensão.": [
+"renderer/app.js"
+],
+"A conta usada é a selecionada na extensão. Para mudar, muda-a na": [
+"renderer/app.js"
+],
+"Proteção MEV: o envio é feito pela carteira. Usa a proteção da própria carteira ou o RPC MEV Blocker nela.": [
+"renderer/app.js"
+],
+"Só extensões de navegador. As apps de telemóvel não ligam por aqui.": [
+"renderer/app.js"
+],
+"Última usada": [
+"renderer/app.js"
+],
+"Pede a password desta carteira": [
+"renderer/app.js"
+],
+"Importar chave privada": [
+"renderer/app.js"
+],
+"usadas · cada uma com a sua password": [
+"renderer/app.js"
+],
+"Limite de": [
+"renderer/app.js"
+],
+"Remove uma em Definições › Carteiras importadas para importar outra.": [
+"renderer/app.js"
+],
+"Escolhe a carteira": [
+"renderer/app.js"
+],
+"Com qual carteira vais assinar os swaps nesta sessão?": [
+"renderer/app.js"
+],
+"Carteiras de hardware · USB": [
+"renderer/app.js"
+],
+"Carteiras do navegador · extensão": [
+"renderer/app.js"
+],
+"A chave está cifrada neste computador. Vais escrever a password desta carteira; fica desbloqueada até fechares a app, a bloqueares ou passarem 30 min sem uso.": [
+"renderer/app.js"
+],
+"A app abre uma página local no navegador para ligar a": [
+"renderer/app.js"
+],
+". Deixa-a aberta enquanto usas a app.": [
+"renderer/app.js"
+],
+"Fecha o Trezor Suite antes de usar a app: só uma aplicação de cada vez fala com a Trezor.": [
+"renderer/app.js"
+],
+"Fecha o Ledger Live antes de usar a app: só uma aplicação de cada vez fala com a Ledger.": [
+"renderer/app.js"
+],
+">Continuar com": [
+"renderer/app.js"
+],
+"PIN da Trezor": [
+"renderer/app.js"
+],
+"Os números estão baralhados no ecrã da Trezor. Carrega aqui nas posições correspondentes aos dígitos do teu PIN.": [
+"renderer/app.js"
+],
+"PIN errado. Tenta de novo.": [
+"renderer/app.js"
+],
+"\" aria-label=\"Posição": [
+"renderer/app.js"
+],
+"Passphrase da Trezor": [
+"renderer/app.js"
+],
+"A tua Trezor tem a passphrase ativa. Cada passphrase abre uma carteira diferente; sem passphrase é a carteira normal.": [
+"renderer/app.js"
+],
+"Segue as instruções no ecrã da Trezor.": [
+"renderer/app.js"
+],
+"A chave fica cifrada neste computador com a password que escolheres, exclusiva desta carteira.": [
+"renderer/app.js"
+],
+"Ex.: Carteira de trading": [
+"renderer/app.js"
+],
+"Mínimo 8 caracteres": [
+"renderer/app.js"
+],
+"Password desta carteira": [
+"renderer/app.js"
+],
+"Repete a password": [
+"renderer/app.js"
+],
+"Uma chave importada é menos segura do que uma carteira de hardware: quem tiver acesso a este computador e à password consegue usá-la. Usa-a para valores que aceitas arriscar. Se esqueceres a password, só recuperas a carteira importando de novo a chave privada.": [
+"renderer/app.js"
+],
+"Importar e usar": [
+"renderer/app.js"
+],
+"Fica desbloqueada até fechares a app, a bloqueares, escolheres outra carteira ou passarem 30 minutos sem uso.": [
+"renderer/app.js"
+],
+"A chave cifrada é apagada deste computador. Os fundos continuam no endereço, mas só voltas a usá-lo importando de novo a chave privada. Tens a chave guardada noutro sítio?": [
+"renderer/app.js"
+],
+"moeda da rede": [
+"renderer/app.js"
+],
+"Token a": [
+"renderer/app.js"
+],
+"Não foi possível iniciar o TopCatSwap": [
+"renderer/app.js"
+],
+"Chave importada em memória": [
+"renderer/app.js"
+],
+"Escreve a password para usar": [
+"renderer/app.js"
+],
+"Bloquear": [
+"renderer/app.js"
+],
+"em uso": [
+"renderer/app.js"
+],
+"Página aberta": [
+"renderer/app.js"
+],
+"Confirma na extensão": [
+"renderer/app.js"
+],
+"Página de ligação aberta": [
+"renderer/app.js"
+],
+"Carrega em Ligar na página": [
+"renderer/app.js"
+],
+"Extensão não encontrada": [
+"renderer/app.js"
+],
+"Abre a página no navegador": [
+"renderer/app.js"
+],
+"Abrir página": [
+"renderer/app.js"
+],
+"não detetada": [
+"renderer/app.js"
+],
+"Abre a app Ethereum para assinar": [
+"renderer/app.js"
+],
+"Pronta para assinar": [
+"renderer/app.js"
+],
+"Liga o cabo USB e desbloqueia": [
+"renderer/app.js"
+],
+"Indica a quantidade a vender.": [
+"renderer/app.js"
+],
+"Escolhe dois tokens diferentes.": [
+"renderer/app.js"
+],
+"As passwords não coincidem.": [
+"renderer/app.js"
+],
+"Endereço inválido: tem de começar por 0x e ter 42 caracteres.": [
+"renderer/app.js"
+],
+"Predefinições do swap repostas. Carrega em Guardar para aplicar.": [
+"renderer/app.js"
+],
+"Slippage inválido: usa um valor entre 0.01 e 50.": [
+"renderer/app.js"
+],
+"Prazo do swap inválido: usa um número inteiro de minutos entre 1 e 60.": [
+"renderer/app.js"
+],
+"Endereço da carteira inválido.": [
+"renderer/app.js"
+],
+"Definições guardadas.": [
+"renderer/app.js"
+],
+"— Confirma que correste o script de instalação (npm install) e que a pasta node_modules existe.": [
+"renderer/app.js"
+],
+"Carteira desconhecida.": [
+"main.js"
+],
+"[carteira] importada": [
+"main.js"
+],
+"[carteira] removida": [
+"main.js"
+],
+"Endereço não permitido.": [
+"main.js"
+],
+"[carteira]": [
+"main.js"
+]
+}

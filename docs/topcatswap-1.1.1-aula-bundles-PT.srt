@@ -1,0 +1,215 @@
+1
+00:00:00,543 --> 00:00:08,794
+Bem-vindo! Nesta aula vais perceber o que é um bundle, porque é útil e que problemas evita.
+
+2
+00:00:09,094 --> 00:00:16,006
+No fim, vamos percorrer o separador Bundles da app, passo a passo.
+
+3
+00:00:16,306 --> 00:00:28,157
+Quando fazes um swap normal, a transação sai da tua carteira e vai para o mempool público: a sala de espera antes de entrar num bloco.
+
+4
+00:00:28,457 --> 00:00:36,336
+O problema: toda a gente vê o mempool — incluindo bots que procuram transações para explorar.
+
+5
+00:00:36,636 --> 00:00:44,766
+Só alguns segundos depois um bloco a inclui. Até lá, a tua transação está exposta.
+
+6
+00:00:45,066 --> 00:00:52,124
+Imagina que vais comprar um token. Um bot vê o teu swap no mempool…
+
+7
+00:00:52,424 --> 00:01:00,683
+…e mete uma compra antes da tua, pagando mais gas para passar à frente. O preço sobe.
+
+8
+00:01:00,983 --> 00:01:09,251
+A tua compra executa a um preço pior: recebes menos tokens (até ao limite do teu slippage).
+
+9
+00:01:09,551 --> 00:01:20,065
+Logo a seguir o bot vende e fica com a diferença. Isto é um sandwich. O frontrun é a mesma ideia.
+
+10
+00:01:20,365 --> 00:01:28,219
+Outro problema: um swap precisa muitas vezes de autorizações antes (approve e Permit2), em transações separadas.
+
+11
+00:01:28,519 --> 00:01:39,170
+Se o swap falhar — porque o preço mudou ou o slippage era curto — pagas o gas na mesma, sem trocar nada.
+
+12
+00:01:39,470 --> 00:01:48,091
+E as autorizações ficam penduradas: entraram na rede, mas o swap que lhes dava sentido não.
+
+13
+00:01:48,391 --> 00:01:57,906
+Um bundle é um pacote de transações já assinadas, com uma ordem fixa: por exemplo approve → Permit2 → swap.
+
+14
+00:01:58,206 --> 00:02:07,257
+O pacote não vai para o mempool: é entregue em privado. Ninguém o vê antes de estar no bloco.
+
+15
+00:02:07,557 --> 00:02:16,213
+Vai diretamente para os builders — quem monta os blocos. A app envia-o a vários ao mesmo tempo.
+
+16
+00:02:16,513 --> 00:02:25,035
+O builder põe o pacote inteiro no bloco, pela ordem que definiste, sem nada pelo meio.
+
+17
+00:02:25,335 --> 00:02:33,589
+A regra de ouro é tudo ou nada. Ou as três transações entram juntas, no mesmo bloco…
+
+18
+00:02:33,889 --> 00:02:42,402
+…ou, se alguma falhar na simulação do builder, nenhuma entra — e não pagas gas nenhum.
+
+19
+00:02:42,702 --> 00:02:52,961
+Resumindo o que um bundle previne. Primeiro, sandwich e frontrun: os bots não veem a transação nem se podem meter no meio.
+
+20
+00:02:53,261 --> 00:03:00,312
+Segundo, gas perdido em swaps que falham: o builder simplesmente não inclui o bundle.
+
+21
+00:03:00,612 --> 00:03:06,862
+Terceiro, autorizações soltas: o approve só entra se o swap também entrar.
+
+22
+00:03:07,162 --> 00:03:13,013
+Quarto, várias carteiras a comprar em blocos diferentes, a preços diferentes.
+
+23
+00:03:13,313 --> 00:03:21,456
+E quinto, vários swaps feitos um a um, expostos e sujeitos a falhar a meio.
+
+24
+00:03:21,756 --> 00:03:27,260
+Agora na prática. Abre o separador Bundles na barra lateral.
+
+25
+00:03:27,560 --> 00:03:36,211
+No topo, quatro cartões lembram as vantagens: tudo ou nada, sem gas se falhar, privado e vários builders.
+
+26
+00:03:36,511 --> 00:03:41,967
+Depois escolhes o tipo de bundle. Começamos pelo Swap atómico.
+
+27
+00:03:42,267 --> 00:03:50,517
+Escreves o token que vendes, o que recebes e o montante — aqui, 25 USDC por WETH.
+
+28
+00:03:50,817 --> 00:04:02,270
+Nas opções, o slippage máximo. O bundle protege a ordem, mas o preço pode mexer entre blocos: o slippage continua a ser o teu limite.
+
+29
+00:04:02,570 --> 00:04:10,026
+A prioridade é a gorjeta paga ao builder. Mais gorjeta, mais hipóteses de entrar depressa.
+
+30
+00:04:10,326 --> 00:04:18,577
+Blocos: durante quantos blocos o bundle é tentado. Na Ethereum, 10 blocos são cerca de 2 minutos.
+
+31
+00:04:18,877 --> 00:04:24,728
+Builders: a quem enviar. Quantos mais, maior a hipótese de inclusão.
+
+32
+00:04:25,028 --> 00:04:34,342
+Carregas em Preparar bundle. Aqui nada é assinado: a app analisa as pools e simula a sequência toda.
+
+33
+00:04:34,642 --> 00:04:42,092
+O resumo mostra o swap, a pool escolhida, o valor esperado e o mínimo garantido.
+
+34
+00:04:42,392 --> 00:04:51,043
+Aqui estão as transações do bundle, pela ordem: aprovar o USDC, autorizar o Universal Router e o swap.
+
+35
+00:04:51,343 --> 00:05:01,593
+Ao lado, o envio: builders, blocos, gorjeta, gas estimado e o que acontece se falhar — nada entra e não pagas gas.
+
+36
+00:05:01,893 --> 00:05:11,605
+Se estiver tudo certo: Assinar e enviar bundle. Na Ledger confirmas cada transação; nada sai antes de assinares todas.
+
+37
+00:05:11,905 --> 00:05:18,555
+A app mostra o progresso: montar o bundle, simular a sequência e assinar…
+
+38
+00:05:18,855 --> 00:05:26,972
+…depois a simulação final no Flashbots, o envio aos builders e a espera pelo bloco.
+
+39
+00:05:27,272 --> 00:05:35,783
+Resultado: bundle incluído. As três transações entraram juntas no mesmo bloco, com links para o explorador.
+
+40
+00:05:36,083 --> 00:05:48,595
+E se nenhum builder o incluir? Aparece “Bundle não incluído”: nada foi executado e não pagaste gas. Tenta de novo com mais prioridade ou mais blocos.
+
+41
+00:05:48,895 --> 00:05:59,145
+Vários swaps: até 12 swaps da mesma carteira num só bloco — por exemplo vender USDC, PEPE e ETH de uma vez.
+
+42
+00:05:59,445 --> 00:06:07,959
+Aqui podes permitir que um swap falhe sem cancelar os outros. Desligado, é tudo ou nada.
+
+43
+00:06:08,259 --> 00:06:19,981
+Várias carteiras: o mesmo swap feito por várias contas da Ledger, ou por várias carteiras importadas, todas no mesmo bloco e ao mesmo preço.
+
+44
+00:06:20,281 --> 00:06:29,595
+Revogar autorizações: retira de uma vez as autorizações antigas que deste a vários tokens. Boa higiene de segurança.
+
+45
+00:06:29,895 --> 00:06:37,746
+Onde funciona: Ethereum e BSC. A Arbitrum não tem mempool público, por isso não tem bundles.
+
+46
+00:06:38,046 --> 00:06:46,297
+Que carteiras: Ledger, Trezor e carteiras importadas. As extensões como o MetaMask não conseguem assinar sem enviar.
+
+47
+00:06:46,597 --> 00:06:56,048
+Não é magia: o slippage continua importante e um builder pode não incluir o bundle — sem custo para ti.
+
+48
+00:06:56,348 --> 00:07:05,259
+E começa pequeno: o primeiro bundle com um valor baixo, e sobe a prioridade se não entrar.
+
+49
+00:07:05,559 --> 00:07:10,215
+Pensa um momento antes de ver a resposta…
+
+50
+00:07:10,515 --> 00:07:18,227
+Certo: nada entra e não pagas gas. É a regra do tudo ou nada.
+
+51
+00:07:18,527 --> 00:07:22,195
+Mais uma…
+
+52
+00:07:22,495 --> 00:07:32,607
+Exato: os bots não o veem antes do bloco e não se podem meter no meio da ordem que definiste.
+
+53
+00:07:32,907 --> 00:07:40,757
+Recapitulando: um bundle junta transações num só bloco, em privado, e só entra se tudo passar.
+
+54
+00:07:41,057 --> 00:07:49,057
+Obrigado por acompanhares esta aula. Agora experimenta no separador Bundles — começa com um valor pequeno!

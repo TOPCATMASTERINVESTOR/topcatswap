@@ -1,0 +1,24 @@
+name: Testes
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund --no-save --prefix .ci ethers@6.13.4
+      - run: node tests/relay.test.mjs
+      - run: NODE_PATH=.ci/node_modules node tests/ledger-webhid.test.js
+      - run: NODE_PATH=.ci/node_modules node tests/bundles-flow.test.js
+      - run: node tools/build-web.js
+      - name: Sintaxe
+        run: for f in desktop/main.js desktop/preload.js desktop/engine/*.js desktop/renderer/*.js dist-web/*.js; do node --check "$f"; done

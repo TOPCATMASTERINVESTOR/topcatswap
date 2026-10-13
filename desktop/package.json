@@ -1,0 +1,63 @@
+{
+  "name": "topcatswap",
+  "productName": "TopCatSwap",
+  "version": "1.1.2",
+  "description": "Swaps na Uniswap V2, V3 e V4 assinados na Ledger, Trezor ou carteira do navegador (MetaMask, OKX, Rabby, Coinbase Wallet, Trust Wallet) ou chave privada importada, com proteção contra sandwich",
+  "main": "main.js",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "TopCat"
+  },
+  "scripts": {
+    "start": "electron .",
+    "cli": "node engine/topcatswap.js",
+    "deps:electron": "electron-builder install-app-deps",
+    "dist": "electron-builder --linux AppImage deb"
+  },
+  "dependencies": {
+    "@ledgerhq/hw-app-eth": "^6.0.0",
+    "@ledgerhq/hw-transport-node-hid": "^6.0.0",
+    "ethers": "^6.13.0"
+  },
+  "optionalDependencies": {
+    "@trezor/connect": "^9.0.0"
+  },
+  "devDependencies": {
+    "electron": "^37.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.topcat.topcatswap",
+    "productName": "TopCatSwap",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "engine/**",
+      "renderer/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Finance",
+      "icon": "build/icon.png",
+      "maintainer": "TopCat <topcat@localhost>",
+      "synopsis": "Swaps na Uniswap com Ledger, Trezor ou carteira do navegador",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "syncDesktopName": true
+    }
+  },
+  "homepage": "https://github.com/OWNER/topcatswap",
+  "desktopName": "topcatswap.desktop"
+}
