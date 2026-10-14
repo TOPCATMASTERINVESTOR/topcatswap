@@ -132,6 +132,7 @@ TopCatSwap compares the Uniswap V2, V3 and V4 pools for your pair, shows what yo
 - **Web**: `node tools/build-web.js` and serve `dist-web/` (or use the GitHub Pages site). Ledger: USB on desktop Chrome/Edge/Brave (WebHID), Bluetooth on Android Chrome (Nano X/Stax/Flex, experimental). On phones the layout adapts, and browser wallets open the site inside their app. Bundles need the relay (builders do not accept requests from websites).
 - **Ubuntu app**: `cd desktop && ./build-ubuntu.sh`, then `sudo apt install ./dist/TopCatSwap-1.1.2-amd64.deb`. See [desktop/INSTALL-UBUNTU.txt](desktop/INSTALL-UBUNTU.txt).
 - **Command line**: `node desktop/engine/topcatswap.en.js HELP`.
+- **Docs**: [User guide (PDF)](docs/topcatswap-user-guide-EN.pdf) · [Installation and hosting guide (PDF)](docs/topcatswap-installation-EN.pdf)
 - **Security**: see [SECURITY.md](SECURITY.md).
 - **Relay**: [relay/](relay/) is a minimal forwarder with a closed list of destinations that only ever receives already-signed bundles. Deploy with `npx wrangler deploy` or run `node relay/server.mjs`.
 - **Publishing**: push to GitHub, set **Settings › Pages › Source: GitHub Actions**; tag `v*` to build the Ubuntu release.
