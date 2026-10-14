@@ -1,6 +1,7 @@
 # Changelog
 
 ## Web 1.1.3
+- O site abre em inglês por omissão (`index.html`); português em `index.pt.html` ou no botão PT. A escolha fica guardada.
 - Telemóveis e tablets:
   - Deteta telemóvel, tablet ou computador e o que o navegador consegue (USB, Bluetooth, app de carteira).
   - Navegação em baixo e barra da carteira em cima, numa só coluna, com janelas em ecrã inteiro.

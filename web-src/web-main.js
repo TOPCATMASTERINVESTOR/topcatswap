@@ -337,7 +337,8 @@ function requestLedger() {
 settings = loadSettings();
 
 if (!settings.language) {
-    settings.language = /^pt/i.test(navigator.language || "") ? "pt" : "en";
+    // Primeira visita: inglês por omissão (o português escolhe-se em PT | EN).
+    settings.language = "en";
     try { saveSettings(settings); } catch (_) {}
 }
 
@@ -448,7 +449,7 @@ window.api = {
         settings.language = lang;
         saveSettings(settings);
         if (lang !== LANG) {
-            setTimeout(() => { location.href = lang === "en" ? "index.en.html" : "index.html"; }, 150);
+            setTimeout(() => { location.href = lang === "en" ? "index.html" : "index.pt.html"; }, 150);
         }
         return true;
     }),
@@ -531,7 +532,7 @@ window.api = {
 
 // Página na língua errada (primeira visita ou definição mudada noutro separador).
 if (settings.language !== LANG && !/[?&]lang=keep\b/.test(location.search)) {
-    location.replace(settings.language === "en" ? "index.en.html" : "index.html");
+    location.replace(settings.language === "en" ? "index.html" : "index.pt.html");
 }
 
 

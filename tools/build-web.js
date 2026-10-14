@@ -10,8 +10,9 @@
 // as alterações de web-src/renderer-web.js.
 //
 // Resultado (site estático, serve em qualquer alojamento https):
-//   dist-web/index.html        Português
-//   dist-web/index.en.html     English
+//   dist-web/index.html        English (página por omissão)
+//   dist-web/index.pt.html     Português
+//   dist-web/index.en.html     English (endereço antigo, igual a index.html)
 //   dist-web/topcatswap-web.pt.js / .en.js   motor + carteiras
 //   dist-web/app.js / app.en.js              interface
 //   dist-web/vendor/ethers.umd.min.js        ethers v6 (MIT)
@@ -204,7 +205,8 @@ function main() {
         hashes[name] = sri(files[name]);
     }
 
-    fs.writeFileSync(path.join(OUT, "index.html"), page("pt", hashes));
+    fs.writeFileSync(path.join(OUT, "index.html"), page("en", hashes));
+    fs.writeFileSync(path.join(OUT, "index.pt.html"), page("pt", hashes));
     fs.writeFileSync(path.join(OUT, "index.en.html"), page("en", hashes));
 
     // Sem processamento Jekyll no GitHub Pages.
