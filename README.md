@@ -2,45 +2,49 @@
 
 # TopCatSwap
 
-**Swaps na Uniswap V2, V3 e V4 com proteção contra sandwich, bundles privados e carteira à tua escolha. Código aberto, sem servidor, sem backdoors.**
+**Uniswap V2, V3 and V4 swaps with sandwich protection, private bundles and the wallet of your choice. Open source, no server, no backdoors.**
 
-*[English below](#english)*
+*English · [Português](README.pt.md)*
 
-O TopCatSwap compara as pools V2, V3 e V4 da Uniswap para o par que escolhes, mostra quanto recebes em cada uma e faz o swap na melhor, assinado pela tua carteira. As chaves nunca saem da carteira e não há nenhum servidor do TopCatSwap no meio: o código fala diretamente com a blockchain (RPC) e com a tua carteira.
+**Live app:** https://topcatmasterinvestor.github.io/topcatswap/
 
-| | Web | App Ubuntu | Linha de comandos |
+**Docs:** [User guide (PDF)](docs/topcatswap-user-guide-EN.pdf) · [Installation and hosting guide (PDF)](docs/topcatswap-installation-EN.pdf)
+
+TopCatSwap compares the Uniswap V2, V3 and V4 pools for your pair, shows what you get from each and swaps on the best one, signed by your own wallet. Keys never leave the wallet and there is no TopCatSwap server in between: the code talks straight to the blockchain (RPC) and to your wallet.
+
+| | Web | Ubuntu app | Command line |
 |---|---|---|---|
-| Swap (V2/V3/V4), Pools, Carteiras | ✓ | ✓ | ✓ |
-| Bundles (tudo-ou-nada, privados) | ✓ (com relay) | ✓ | — |
+| Swap (V2/V3/V4), Pools, Wallets | ✓ | ✓ | ✓ |
+| Bundles (all-or-nothing, private) | ✓ (with relay) | ✓ | — |
 | Ledger | ✓ USB: Chrome/Edge/Brave · Bluetooth: Android (Nano X, Stax, Flex) | ✓ USB | ✓ USB |
 | Trezor | ✓ Trezor Connect | ✓ (experimental) | — |
-| MetaMask, OKX, Rabby, Coinbase Wallet, Trust Wallet | ✓ direto | ✓ por página local | — |
-| Carteiras importadas (até 5, cifradas) | ✓ no navegador | ✓ no computador | ✓ |
-| Português (PT) e English (US) | ✓ | ✓ | ✓ |
+| MetaMask, OKX, Rabby, Coinbase Wallet, Trust Wallet | ✓ direct | ✓ via local page | — |
+| Imported wallets (up to 5, encrypted) | ✓ in the browser | ✓ on the computer | ✓ |
+| English (US) and Português (PT) | ✓ | ✓ | ✓ |
 
-Redes: Ethereum, Arbitrum One e BNB Smart Chain.
+Networks: Ethereum, Arbitrum One and BNB Smart Chain.
 
-## Como usar
+## How to use it
 
-### Versão web
+### Web app
 
-Abre o site publicado (GitHub Pages deste repositório) ou corre-o no teu computador:
+Open the live app, or run it on your computer:
 
 ```bash
-node tools/build-web.js          # gera dist-web/ (não precisa de npm install)
+node tools/build-web.js          # creates dist-web/ (no npm install needed)
 python3 -m http.server 8080 -d dist-web
-# abre http://localhost:8080
+# open http://localhost:8080
 ```
 
-- **Ledger** precisa de Chrome, Edge, Brave ou Opera (WebHID) num endereço `https://` ou `localhost`. No Linux, as regras udev da Ledger.
-- **Bundles** precisam de um *relay* porque os builders não aceitam pedidos de sites (CORS). Ver [relay/](#relay-dos-bundles).
-- **Telemóvel e tablet** (iPhone, iPad, Android; Chrome, Brave, Firefox, Safari):
-  - O ecrã adapta-se: navegação em baixo e uma só coluna.
-  - As carteiras de hardware só aparecem se o navegador as conseguir usar. No Android (Chrome, Edge ou Brave) dá para usar a Ledger Nano X, Stax ou Flex por Bluetooth (experimental). O iPhone e o Firefox não têm Bluetooth para sites.
-  - MetaMask, Trust, OKX e Coinbase: abre o site dentro da app da carteira (há um link para cada uma) ou usa uma carteira importada.
-- As definições e as carteiras importadas ficam no `localStorage` do teu navegador, neste site. Nada é enviado para servidores do TopCatSwap (não existem).
+- **Ledger** needs Chrome, Edge, Brave or Opera (WebHID) on an `https://` or `localhost` address. On Linux, install the Ledger udev rules.
+- **Bundles** need a *relay*, because builders do not accept requests from websites (CORS). See [Bundle relay](#bundle-relay).
+- **Phones and tablets** (iPhone, iPad, Android; Chrome, Brave, Firefox, Safari):
+  - The layout adapts, with navigation at the bottom and a single column.
+  - Hardware wallets only show up when the browser can use them. On Android (Chrome, Edge or Brave) the Ledger Nano X, Stax or Flex work over Bluetooth (experimental). iPhone and Firefox give websites no Bluetooth.
+  - MetaMask, Trust, OKX and Coinbase: open the site inside the wallet's app (there is a link for each one), or use an imported wallet.
+- Settings and imported wallets stay in your browser's `localStorage` for this site. Nothing is sent to TopCatSwap servers (there are none).
 
-### App para Ubuntu
+### Ubuntu app
 
 ```bash
 cd desktop
@@ -48,63 +52,65 @@ cd desktop
 sudo apt install ./dist/TopCatSwap-1.1.2-amd64.deb
 ```
 
-Instruções completas: [desktop/COMO-INSTALAR-UBUNTU.txt](desktop/COMO-INSTALAR-UBUNTU.txt) e os PDFs em [docs/](docs/).
+Full instructions: [Installation guide (PDF)](docs/topcatswap-installation-EN.pdf) and [desktop/INSTALL-UBUNTU.txt](desktop/INSTALL-UBUNTU.txt).
 
-### Linha de comandos
+### Command line
 
 ```bash
 cd desktop && npm install ethers @ledgerhq/hw-transport-node-hid @ledgerhq/hw-app-eth
-node engine/topcatswap.js HELP        # português
 node engine/topcatswap.en.js HELP     # English
+node engine/topcatswap.js HELP        # Português
 ```
 
-## Segurança
+## Security
 
-Lê o [SECURITY.md](SECURITY.md): onde ficam as chaves, para onde a app comunica, como confirmar que o que corres é igual a este código e como reportar problemas.
+Read [SECURITY.md](SECURITY.md). It covers where keys live, who the app talks to, how to verify that what you run is this code, and how to report a problem.
 
-Resumo:
+In short:
 
-- **Ledger e Trezor**: a chave nunca sai do dispositivo; confirmas cada transação no ecrã dele.
-- **Extensões** (MetaMask, …): a chave fica na extensão; confirmas lá.
-- **Carteiras importadas**: a chave fica cifrada (keystore padrão da Ethereum, scrypt + AES) com uma password só dessa carteira, no teu computador ou navegador. É menos segura do que uma carteira de hardware.
-- **Sem telemetria, sem servidor próprio, sem chaves de API escondidas.**
+- **Ledger and Trezor**: the key never leaves the device; you confirm each transaction on its screen.
+- **Extensions** (MetaMask, …): the key stays in the extension; you confirm there.
+- **Imported wallets**: the key is encrypted (standard Ethereum keystore, scrypt + AES) with a password for that wallet only, on your computer or in your browser. It is less secure than a hardware wallet.
+- **No telemetry, no server of our own, no hidden API keys.**
 
-## Relay dos bundles
+## Bundle relay
 
-Os builders (Flashbots, BuilderNet, Titan, beaverbuild, 48 Club, BlockRazor) não respondem a pedidos vindos de páginas web. A pasta [relay/](relay/) tem um reencaminhador mínimo, com **lista fechada de destinos** ([relay/allowlist.mjs](relay/allowlist.mjs)), que só recebe bundles **já assinados**:
+Builders (Flashbots, BuilderNet, Titan, beaverbuild, 48 Club, BlockRazor) do not answer requests coming from web pages. The [relay/](relay/) folder has a minimal forwarder.
+- It has a **closed list of destinations** ([relay/allowlist.mjs](relay/allowlist.mjs)).
+- It only ever receives **already-signed** bundles.
 
 ```bash
-# Cloudflare Workers (conta gratuita)
+# Cloudflare Workers (free account)
 cd relay && npx wrangler deploy
-# ou no teu computador
+# or on your computer
 node relay/server.mjs      # http://127.0.0.1:8787
 ```
 
-Depois põe o endereço do relay em **Definições › Ligações › Relay dos bundles** (ou em `web-src/config.js` antes do build, para todos os utilizadores do teu site). A app de secretária não precisa de relay.
+Then put the relay address in **Settings › Connections › Bundle relay**. You can also set it in `web-src/config.js` before the build, for every user of your site. The desktop app does not need a relay.
 
-## Publicar no GitHub
+## Publishing on GitHub
 
-1. Cria um repositório e envia este código (`git push`).
-2. Em **Settings › Pages**, escolhe **Source: GitHub Actions**. O workflow [pages.yml](.github/workflows/pages.yml) gera e publica o site a cada push na `main`.
-3. Para lançar uma versão da app Ubuntu: `git tag v1.1.2 && git push --tags`. O workflow [release.yml](.github/workflows/release.yml) gera o `.deb` e o `.AppImage` e publica-os com os `SHA256SUMS`.
+1. Create a repository and push this code (`git push`).
+2. In **Settings › Pages**, choose **Source: GitHub Actions**. The [pages.yml](.github/workflows/pages.yml) workflow builds and publishes the site on every push to `main`.
+3. To release the Ubuntu app, run `git tag v1.1.2 && git push --tags`. The [release.yml](.github/workflows/release.yml) workflow builds the `.deb` and the `.AppImage` and publishes them with `SHA256SUMS`.
 
-## Estrutura
+## Layout
 
 ```
-desktop/            app Electron (Ubuntu) e motor partilhado
-  engine/           motor: cotações, swaps, bundles, carteiras (*.en.js = inglês)
-  renderer/         interface
-web-src/            o que muda no navegador: shims, Ledger WebHID, extensões, window.api
-tools/build-web.js  gera dist-web/ a partir de desktop/ + web-src/
-tools/i18n/         gera os ficheiros *.en.js a partir dos portugueses
-relay/              relay dos bundles (Cloudflare Worker ou Node)
-tests/              testes sem rede (relay, Ledger simulada, fluxo de bundles)
-docs/               tutoriais em PDF
+desktop/            Electron app (Ubuntu) and the shared engine
+  engine/           engine: quotes, swaps, bundles, wallets (*.en.js = English)
+  renderer/         user interface
+web-src/            browser adapters: shims, Ledger WebHID/Bluetooth, extensions, window.api
+tools/build-web.js  builds dist-web/ from desktop/ + web-src/
+tools/i18n/         generates the *.en.js files from the Portuguese sources
+relay/              bundle relay (Cloudflare Worker or Node)
+tests/              offline tests (relay, simulated Ledger, bundle flow)
+docs/               PDF guides
 ```
 
-A versão web usa **o mesmo motor** da app de secretária: só os acessos ao sistema (USB, ficheiros, rede local) são substituídos por equivalentes do navegador.
+The web app runs **the same engine** as the desktop app. Only system access (USB, files, local network) is replaced by browser equivalents.
 
-## Desenvolvimento
+## Development
 
 ```bash
 node tools/build-web.js
@@ -115,26 +121,8 @@ NODE_PATH=.ci/node_modules node tests/ledger-ble.test.js
 NODE_PATH=.ci/node_modules node tests/bundles-flow.test.js
 ```
 
-Textos: escreve em português nos ficheiros `*.js`; para regenerar o inglês, `cd tools/i18n && python3 build_en.py ../../desktop` (novas frases: acrescenta a `en4.tsv`).
+The source strings are written in Portuguese in the `*.js` files. To regenerate the English files, run `cd tools/i18n && python3 build_en.py ../../desktop`. For new sentences, add them to `en4.tsv`.
 
-## Aviso
+## Disclaimer
 
-Software experimental, sem garantias (licença [MIT](LICENSE)). Swaps em DeFi envolvem risco de perda. Começa com valores pequenos. Isto não é aconselhamento financeiro.
-
----
-
-## English
-
-**Uniswap V2, V3 and V4 swaps with sandwich protection, private bundles and the wallet of your choice. Open source, no server, no backdoors.**
-
-TopCatSwap compares the Uniswap V2, V3 and V4 pools for your pair, shows what you get from each, and swaps on the best one, signed by your wallet. Keys never leave the wallet and there is no TopCatSwap server in between: the code talks straight to the blockchain (RPC) and to your wallet.
-
-- **Web**: `node tools/build-web.js` and serve `dist-web/` (or use the GitHub Pages site). Ledger: USB on desktop Chrome/Edge/Brave (WebHID), Bluetooth on Android Chrome (Nano X/Stax/Flex, experimental). On phones the layout adapts, and browser wallets open the site inside their app. Bundles need the relay (builders do not accept requests from websites).
-- **Ubuntu app**: `cd desktop && ./build-ubuntu.sh`, then `sudo apt install ./dist/TopCatSwap-1.1.2-amd64.deb`. See [desktop/INSTALL-UBUNTU.txt](desktop/INSTALL-UBUNTU.txt).
-- **Command line**: `node desktop/engine/topcatswap.en.js HELP`.
-- **Docs**: [User guide (PDF)](docs/topcatswap-user-guide-EN.pdf) · [Installation and hosting guide (PDF)](docs/topcatswap-installation-EN.pdf)
-- **Security**: see [SECURITY.md](SECURITY.md).
-- **Relay**: [relay/](relay/) is a minimal forwarder with a closed list of destinations that only ever receives already-signed bundles. Deploy with `npx wrangler deploy` or run `node relay/server.mjs`.
-- **Publishing**: push to GitHub, set **Settings › Pages › Source: GitHub Actions**; tag `v*` to build the Ubuntu release.
-
-Experimental software, no warranty (MIT). DeFi swaps carry risk of loss. Start with small amounts. Not financial advice.
+Experimental software with no warranty ([MIT](LICENSE) license). DeFi swaps carry a risk of loss. Start with small amounts. This is not financial advice.
