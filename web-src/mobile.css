@@ -1,0 +1,140 @@
+/* ============================================================
+   TopCatSwap Web — telemóvel e tablet
+   Acrescentado ao fim de styles.css por tools/build-web.js.
+   Até 1023px: barra da carteira em cima, navegação em baixo,
+   uma coluna, janelas em ecrã inteiro. Acima disso: igual ao
+   computador (barra lateral).
+   ============================================================ */
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* Cartões de carteira: abrir na app / indisponível */
+.wallet-opt.app-link { text-decoration: none; }
+.wallet-opt.app-link .w-tag { background: #13325A; color: #8EC5FF; }
+.wallet-opt.off { cursor: not-allowed; opacity: .55; }
+.wallet-opt.off:hover { border-color: var(--line); background: var(--surface); }
+.chooser-empty { padding: 14px 16px; border: 1px dashed var(--line); border-radius: 12px; }
+
+/* Ecrãs tácteis: campos com 16px (o iPhone não faz zoom ao escrever)
+   e alvos de toque confortáveis. */
+html[data-touch] .input,
+html[data-touch] select,
+html[data-touch] textarea,
+html[data-touch] input[type="text"],
+html[data-touch] input[type="password"],
+html[data-touch] .custom-slip input { font-size: 16px; }
+
+@media (max-width: 1023px) {
+
+  body { background: var(--bg); }
+
+  .app { display: block; min-height: 100vh; min-height: 100dvh; }
+
+  /* Navegação: barra fixa em baixo */
+  .nav {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    max-width: none; padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+    flex-direction: row; gap: 0; border-right: 0; border-top: 1px solid #1A2C47;
+    background: #091425;
+  }
+  .nav .brand { display: none; }
+  .nav-links { flex-direction: row; flex: 1 1 auto; gap: 2px; justify-content: space-around; }
+  .nav-link {
+    flex: 1 1 0; flex-direction: column; justify-content: center; gap: 3px;
+    min-height: 54px; padding: 4px 2px; font-size: 11px; text-align: center; width: auto;
+  }
+  .nav-link svg { width: 22px; height: 22px; }
+  .nav-link[aria-current="page"] { box-shadow: none; }
+
+  /* Carteira: barra fixa em cima, numa só linha */
+  .ledger-card {
+    position: fixed; left: 0; right: 0; top: 0; z-index: 30; margin: 0;
+    border-radius: 0; border: 0; border-bottom: 1px solid #1A2C47;
+    padding: calc(8px + env(safe-area-inset-top)) 10px 8px 12px;
+    flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 8px;
+    min-height: 56px; background: #091425;
+  }
+  .ledger-card .w-row { flex: 1 1 auto; min-width: 0; }
+  .ledger-card .w-row > div { min-width: 0; }
+  .ledger-card .title, .ledger-card .sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .ledger-card .title .dot { margin-right: 6px; vertical-align: middle; }
+  .ledger-card .addr { display: none; }
+  .ledger-card .w-actions { display: flex; flex-wrap: nowrap; gap: 6px; flex: 0 0 auto; }
+  .ledger-card .w-actions .btn { min-height: 36px; padding: 0 10px; font-size: 13px; white-space: nowrap; }
+
+  /* Menu de escolha por cima de tudo */
+  .chooser { z-index: 50; }
+  .modal-back { z-index: 45; }
+  .modal-back.secure-back { z-index: 60; }
+
+  .content {
+    min-height: 100vh; min-height: 100dvh;
+    padding-top: calc(58px + env(safe-area-inset-top));
+    padding-bottom: calc(78px + env(safe-area-inset-bottom));
+  }
+
+  .topbar { padding: 14px 16px; gap: 10px; }
+  .topbar h1 { font-size: 21px; }
+  .topbar p { font-size: 13px; }
+  .top-actions { width: 100%; }
+  .top-actions > * { flex: 1 1 auto; }
+
+  .page { padding: 16px 12px 24px; gap: 16px; }
+  .grow-wide, .grow-narrow { flex: 1 1 100%; max-width: none; }
+  .page > [style*="flex:1 1 420px"] { flex: 1 1 100% !important; }
+  .card { padding: 16px; border-radius: 12px; }
+
+  .best { padding: 16px; gap: 14px; }
+  .best .big-num { font-size: 28px; }
+  .amount { font-size: 26px; }
+
+  /* Bundles */
+  .adv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .adv { padding: 10px 12px; }
+  .adv span { display: none; }
+  .mode-seg { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .leg-head { display: none; }
+  .leg { grid-template-columns: 26px minmax(0, 1fr) 16px minmax(0, 1fr) 36px; row-gap: 6px; }
+  .leg > :nth-child(5) { grid-column: 2 / 5; grid-row: 2; }
+  .leg > :nth-child(6) { grid-column: 5; grid-row: 1; }
+  .btable { display: block; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+
+  dl.kv { grid-template-columns: minmax(96px, auto) minmax(0, 1fr); gap: 8px 12px; font-size: 13.5px; }
+
+  /* Janelas: folha que sobe de baixo, ecrã inteiro se precisar */
+  .modal-back { align-items: flex-end; padding: 0; }
+  .modal {
+    max-width: none; border-radius: 18px 18px 0 0;
+    max-height: 92vh; max-height: 92dvh; overflow-y: auto;
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  }
+
+  /* Menu de escolha da carteira */
+  .chooser { padding: calc(20px + env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom)); background: #081222; }
+  .chooser-inner { gap: 20px; }
+  .chooser-head { flex-wrap: wrap; }
+  .chooser-head img { width: 48px; height: 48px; }
+  .chooser-head h1 { font-size: 22px; }
+  .chooser-head p { font-size: 14px; }
+  .wallet-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .wallet-opt { min-height: 0; padding: 14px; }
+  .chooser-foot { flex-direction: column; align-items: stretch; }
+  .chooser-foot > div { flex-direction: column-reverse; }
+  .chooser-foot .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 420px) {
+  .ledger-card .w-actions .btn { padding: 0 8px; font-size: 12px; }
+  .ledger-card .sub { font-size: 11px; }
+  .nav-link { font-size: 10px; }
+  .topbar h1 { font-size: 19px; }
+  .seg { grid-template-columns: minmax(0, 1fr); }
+  .pill { min-width: 52px; }
+}
+
+/* Tablet deitado / portátil pequeno: barra lateral mais estreita */
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .nav { flex: 0 0 210px; padding: 20px 12px; }
+  .page { padding: 22px 20px 32px; }
+  .topbar { padding: 18px 20px; }
+}

@@ -1,5 +1,14 @@
 # Changelog
 
+## Web 1.1.3
+- Telemóveis e tablets:
+  - Deteta telemóvel, tablet ou computador e o que o navegador consegue (USB, Bluetooth, app de carteira).
+  - Navegação em baixo e barra da carteira em cima, numa só coluna, com janelas em ecrã inteiro.
+- Carteiras no telemóvel:
+  - As carteiras de hardware deixam de aparecer. Exceção: Ledger Nano X, Stax e Flex por Bluetooth (experimental), no Chrome, Edge ou Brave para Android.
+  - MetaMask, Trust, OKX e Coinbase: um link abre o site dentro da app da carteira. No browser da app, a ligação é direta.
+- No computador, a Ledger aparece desativada nos navegadores sem WebHID (Firefox, Safari) e a Trezor no Safari.
+
 ## Web 1.1.2
 - Versão web completa, com o mesmo motor da app Ubuntu: Swap, Pools, Carteiras, Bundles e Definições, em PT e EN.
 - Carteiras:

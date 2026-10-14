@@ -18,6 +18,7 @@ jobs:
       - run: npm install --no-audit --no-fund --no-save --prefix .ci ethers@6.13.4
       - run: node tests/relay.test.mjs
       - run: NODE_PATH=.ci/node_modules node tests/ledger-webhid.test.js
+      - run: NODE_PATH=.ci/node_modules node tests/ledger-ble.test.js
       - run: NODE_PATH=.ci/node_modules node tests/bundles-flow.test.js
       - run: node tools/build-web.js
       - name: Sintaxe

@@ -199,6 +199,213 @@ class TransportWebHID {
 }
 
 
+// ---- Bluetooth (Ledger Nano X, Stax, Flex) — Web Bluetooth ----------------
+//
+// Mesmo protocolo de APDUs; muda o transporte: GATT com uma
+// característica para escrever e outra para notificações. Cada pacote:
+// tag 0x05, índice (2 bytes) e, no primeiro, o tamanho total (2 bytes).
+// O tamanho máximo de cada pacote (MTU) pergunta-se ao dispositivo.
+
+const BLE_DEVICES = [
+    { name: "Nano X", service: "13d63400-2c97-0004-0000-4c6564676572", notify: "13d63400-2c97-0004-0001-4c6564676572", write: "13d63400-2c97-0004-0002-4c6564676572" },
+    { name: "Stax", service: "13d63400-2c97-6004-0000-4c6564676572", notify: "13d63400-2c97-6004-0001-4c6564676572", write: "13d63400-2c97-6004-0002-4c6564676572" },
+    { name: "Flex", service: "13d63400-2c97-3004-0000-4c6564676572", notify: "13d63400-2c97-3004-0001-4c6564676572", write: "13d63400-2c97-3004-0002-4c6564676572" }
+];
+
+let bleDevice = null;          // dispositivo escolhido nesta sessão
+let bleTransport = null;       // ligação aberta (reutilizada)
+
+
+function bleAvailable() {
+    return typeof navigator !== "undefined" && !!navigator.bluetooth;
+}
+
+
+function bleNotSupported() {
+    return new Error(L(
+        "Este navegador não tem Bluetooth web. No telemóvel usa o Chrome, Edge ou Brave no Android (o iPhone não permite).",
+        "This browser has no Web Bluetooth. On a phone use Chrome, Edge or Brave on Android (iPhone does not allow it)."
+    ));
+}
+
+
+class TransportWebBLE {
+
+    static isSupported() {
+        return bleAvailable();
+    }
+
+    // Janela do navegador para escolher a Ledger (tem de vir de um clique).
+    static request() {
+        if (!bleAvailable()) return Promise.reject(bleNotSupported());
+        return navigator.bluetooth.requestDevice({
+            filters: BLE_DEVICES.map(d => ({ services: [d.service] })),
+            optionalServices: BLE_DEVICES.map(d => d.service)
+        }).then((device) => {
+            bleDevice = device;
+            device.addEventListener("gattserverdisconnected", () => { bleTransport = null; });
+            return [device];
+        });
+    }
+
+    static async list() {
+        if (!bleAvailable()) return [];
+        if (bleDevice) return [bleDevice];
+        // Alguns navegadores lembram as autorizações anteriores.
+        if (navigator.bluetooth.getDevices) {
+            try {
+                const known = await navigator.bluetooth.getDevices();
+                const d = known.find(x => /ledger|nano|stax|flex/i.test(x.name || ""));
+                if (d) { bleDevice = d; return [d]; }
+            } catch (_) {}
+        }
+        return [];
+    }
+
+    static async create() {
+
+        if (!bleAvailable()) throw bleNotSupported();
+
+        if (bleTransport && bleTransport.device.gatt.connected) return bleTransport;
+
+        if (!bleDevice) await TransportWebBLE.list();
+
+        if (!bleDevice) {
+            throw new Error(L(
+                "Liga primeiro a Ledger por Bluetooth: carrega em \"Ligar Ledger\" (barra de cima) e escolhe-a. A Ledger tem de estar desbloqueada, com o Bluetooth ligado.",
+                "Connect the Ledger over Bluetooth first: tap \"Connect Ledger\" (top bar) and pick it. The Ledger must be unlocked with Bluetooth on."
+            ));
+        }
+
+        let server;
+        try {
+            server = await bleDevice.gatt.connect();
+        } catch (error) {
+            throw new Error(L("Não consegui ligar à Ledger por Bluetooth (está perto, desbloqueada e com o Bluetooth ligado?). (", "Could not connect to the Ledger over Bluetooth (is it near, unlocked and with Bluetooth on?). (") + (error && error.message) + ")");
+        }
+
+        let spec = null, service = null;
+        for (const d of BLE_DEVICES) {
+            try { service = await server.getPrimaryService(d.service); spec = d; break; } catch (_) {}
+        }
+        if (!service) throw new Error(L("Este dispositivo não parece uma Ledger com Bluetooth.", "This device does not look like a Bluetooth Ledger."));
+
+        const [writeC, notifyC] = await Promise.all([service.getCharacteristic(spec.write), service.getCharacteristic(spec.notify)]);
+
+        const t = new TransportWebBLE(bleDevice, writeC, notifyC);
+        await notifyC.startNotifications();
+        await t.inferMtu();
+
+        bleTransport = t;
+        return t;
+    }
+
+    constructor(device, writeC, notifyC) {
+        this.device = device;
+        this.writeC = writeC;
+        this.notifyC = notifyC;
+        this.mtu = 20;
+        this.inbox = [];
+        this.waiting = null;
+        this.lock = Promise.resolve();
+        this.onNotify = (event) => {
+            const v = event.target.value;
+            const data = new Uint8Array(v.buffer, v.byteOffset, v.byteLength).slice();
+            if (this.waiting) { const w = this.waiting; this.waiting = null; w(data); }
+            else this.inbox.push(data);
+        };
+        notifyC.addEventListener("characteristicvaluechanged", this.onNotify);
+    }
+
+    nextPacket(timeoutMs) {
+        return TransportWebHID.prototype.nextPacket.call(this, timeoutMs);
+    }
+
+    async write(bytes) {
+        if (this.writeC.writeValueWithResponse) await this.writeC.writeValueWithResponse(bytes);
+        else await this.writeC.writeValue(bytes);
+    }
+
+    async inferMtu() {
+        try {
+            this.inbox = [];
+            await this.write(new Uint8Array([0x08, 0, 0, 0, 0]));
+            for (let i = 0; i < 5; i++) {
+                const p = await this.nextPacket(3000);
+                if (p[0] === 0x08 && p.length > 5) { this.mtu = Math.max(20, p[5]); break; }
+            }
+        } catch (_) {
+            this.mtu = 20;
+        }
+    }
+
+    exchange(apdu, timeoutMs = 120000) {
+
+        const run = async () => {
+
+            this.inbox = [];
+
+            // Envio: [05][índice 2B]([tamanho 2B] no primeiro) + dados, até ao MTU.
+            let offset = 0, seq = 0;
+            while (offset < apdu.length || seq === 0) {
+                const head = seq === 0 ? 5 : 3;
+                const size = Math.min(this.mtu - head, apdu.length - offset);
+                const frame = new Uint8Array(head + size);
+                frame[0] = TAG; frame[1] = (seq >> 8) & 0xff; frame[2] = seq & 0xff;
+                if (seq === 0) { frame[3] = (apdu.length >> 8) & 0xff; frame[4] = apdu.length & 0xff; }
+                frame.set(apdu.slice(offset, offset + size), head);
+                await this.write(frame);
+                offset += size; seq++;
+            }
+
+            // Resposta.
+            let expected = null, out = new Uint8Array(0), rseq = 0;
+            while (expected === null || out.length < expected) {
+                const p = await this.nextPacket(timeoutMs);
+                if (p[0] !== TAG) continue;
+                const s = (p[1] << 8) | p[2];
+                if (s !== rseq) throw new Error("Ledger: sequência inválida");
+                let body;
+                if (rseq === 0) { expected = (p[3] << 8) | p[4]; body = p.slice(5); } else body = p.slice(3);
+                const merged = new Uint8Array(out.length + body.length);
+                merged.set(out, 0); merged.set(body, out.length);
+                out = merged; rseq++;
+            }
+
+            const res = out.slice(0, expected);
+            if (res.length < 2) throw new Error("Ledger: resposta vazia");
+            const sw = (res[res.length - 2] << 8) | res[res.length - 1];
+            if (sw !== 0x9000) throw statusError(sw);
+            return res.slice(0, res.length - 2);
+        };
+
+        const p = this.lock.then(run, run);
+        this.lock = p.catch(() => {});
+        return p;
+    }
+
+    // Mantém a ligação Bluetooth aberta entre transações (ligar demora).
+    async close() {}
+
+    static async disconnect() {
+        try { if (bleDevice && bleDevice.gatt.connected) bleDevice.gatt.disconnect(); } catch (_) {}
+        bleTransport = null;
+    }
+}
+
+
+// O motor usa sempre "TransportNodeHid": aqui é USB (WebHID) ou Bluetooth,
+// conforme o dispositivo (escolhido em web-main.js).
+const LedgerTransport = {
+    mode: "hid",
+    impl() { return this.mode === "ble" ? TransportWebBLE : TransportWebHID; },
+    isSupported() { return this.impl().isSupported(); },
+    request() { return this.impl().request(); },
+    list() { return this.impl().list(); },
+    create() { return this.impl().create(); }
+};
+
+
 // ---- App Ethereum ---------------------------------------------------------
 
 function splitPath(path) {
@@ -286,4 +493,4 @@ class Eth {
 }
 
 
-module.exports = { TransportWebHID, Eth, splitPath, LEDGER_VENDOR_ID };
+module.exports = { TransportWebHID, TransportWebBLE, LedgerTransport, Eth, splitPath, LEDGER_VENDOR_ID, BLE_DEVICES };

@@ -206,6 +206,68 @@ const g = require("./gui-engine");
 const ledgerLib = require("./ledger-webhid");
 const bridgeWeb = require("./wallet-bridge-web");
 
+const D = globalThis.TCS_DEVICE || { type: "desktop", mobile: false, hid: !!navigator.hid, bluetooth: !!navigator.bluetooth, walletApp: null };
+
+// Ledger: USB (WebHID) no computador; Bluetooth no telemóvel/tablet (ou
+// no computador sem WebHID mas com Bluetooth web).
+const LEDGER = ledgerLib.LedgerTransport;
+LEDGER.mode = (D.mobile || !D.hid) && D.bluetooth ? "ble" : "hid";
+
+
+// ============================================================
+// QUE CARTEIRAS FAZEM SENTIDO NESTE DISPOSITIVO
+//   ok      → pode ser escolhida
+//   link    → abre este site dentro da app da carteira (telemóvel)
+//   off     → aparece desativada, com a razão
+//   hidden  → não aparece
+// ============================================================
+
+function pageUrl() {
+    return location.origin + location.pathname;
+}
+
+const APP_LINKS = {
+    metamask: () => "https://metamask.app.link/dapp/" + pageUrl().replace(/^https?:\/\//, ""),
+    trust: () => "https://link.trustwallet.com/open_url?coin_id=60&url=" + encodeURIComponent(pageUrl()),
+    okx: () => "https://www.okx.com/download?deeplink=" + encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(pageUrl())),
+    coinbase: () => "https://go.cb-w.com/dapp?cb_url=" + encodeURIComponent(pageUrl())
+};
+
+const BROWSER_KEYS = ["metamask", "okx", "rabby", "coinbase", "trust"];
+
+function walletAvailability(key) {
+
+    if (key === "local") return { state: "ok" };
+
+    if (key === "ledger") {
+        if (LEDGER.mode === "hid" && D.hid) {
+            return { state: "ok", sub: L("Hardware · USB (Chrome, Edge ou Brave). Contas do Ledger Live.", "Hardware · USB (Chrome, Edge or Brave). Ledger Live accounts.") };
+        }
+        if (LEDGER.mode === "ble" && D.bluetooth) {
+            return { state: "ok", ble: true, sub: L("Hardware · Bluetooth (Nano X, Stax, Flex). Experimental.", "Hardware · Bluetooth (Nano X, Stax, Flex). Experimental.") };
+        }
+        if (D.mobile) return { state: "hidden" };
+        return { state: "off", sub: L("Este navegador não fala com a Ledger: usa Chrome, Edge ou Brave.", "This browser cannot talk to the Ledger: use Chrome, Edge or Brave.") };
+    }
+
+    if (key === "trezor") {
+        if (D.mobile) return { state: "hidden" };
+        if (D.browser === "safari") return { state: "off", sub: L("O Safari não é suportado pelo Trezor Connect: usa Chrome, Brave, Edge ou Firefox.", "Safari is not supported by Trezor Connect: use Chrome, Brave, Edge or Firefox.") };
+        return { state: "ok", sub: L("Hardware · pelo Trezor Connect (janela da Trezor). Contas do Trezor Suite.", "Hardware · through Trezor Connect (Trezor window). Trezor Suite accounts.") };
+    }
+
+    if (BROWSER_KEYS.includes(key)) {
+        if (!D.mobile) return { state: "ok" };
+        const app = D.refreshWalletApp ? D.refreshWalletApp() : D.walletApp;
+        if (app === key) return { state: "ok", sub: L("Estás no browser da app: liga diretamente.", "You are in the app's browser: connects directly.") };
+        if (app) return { state: "hidden" };
+        if (APP_LINKS[key]) return { state: "link", link: APP_LINKS[key](), sub: L("Abre este site dentro da app (é preciso tê-la instalada).", "Opens this site inside the app (it must be installed).") };
+        return { state: "hidden" };
+    }
+
+    return { state: "ok" };
+}
+
 
 // Trezor Connect (script oficial, carregado só quando a Trezor é escolhida).
 let trezorScript = null;
@@ -258,12 +320,12 @@ function handle(fn) {
 let ledgerAuthorized = 0;
 
 function refreshLedgerAuthorized() {
-    return ledgerLib.TransportWebHID.list().then(l => { ledgerAuthorized = l.length; return l.length; }).catch(() => 0);
+    return LEDGER.list().then(l => { ledgerAuthorized = l.length; return l.length; }).catch(() => 0);
 }
 
 function requestLedger() {
     // Chamado de forma síncrona dentro do clique (o navegador exige-o).
-    return ledgerLib.TransportWebHID.request().then((list) => {
+    return LEDGER.request().then((list) => {
         if (list && list.length) ledgerAuthorized = list.length;
         return refreshLedgerAuthorized();
     });
@@ -323,6 +385,9 @@ window.api = {
 
     web: true,
 
+    device: () => D,
+    walletAvailability,
+
     init: handle(() => ({
         settings,
         chains: g.chainsInfo(),
@@ -342,7 +407,7 @@ window.api = {
 
     chooseWallet: (key) => {
         // Ledger: a janela de autorização do navegador tem de abrir já, dentro do clique.
-        const auth = key === "ledger" && ledgerAuthorized === 0 && ledgerLib.TransportWebHID.isSupported()
+        const auth = key === "ledger" && ledgerAuthorized === 0 && LEDGER.isSupported()
             ? requestLedger().catch(() => 0) : null;
         return handle(async () => {
             if (!WALLET_KEYS.includes(key)) throw new Error(L("Carteira desconhecida.", "Unknown wallet."));

@@ -49,8 +49,9 @@ const CODE = [
         name: "ledger-card-hw",
         find: /(        const l = S\.ledger;\n[\s\S]*?\n)(    \}\n\n    card\.innerHTML)/,
         replace: (m, a, b) => a + `        if (k === "ledger" && bridge.web && !l.connected && !busy) {
-            sub = S.lang === "en" ? "Authorize it in this browser (Chrome, Edge, Brave)" : "Autoriza-a neste navegador (Chrome, Edge, Brave)";
-            actions = \`<button type="button" class="btn" data-action="ledger-authorize">\${S.lang === "en" ? "Authorize Ledger" : "Autorizar Ledger"}</button>\`;
+            const ble = webWallet("ledger").ble;
+            sub = ble ? (S.lang === "en" ? "Unlock it, turn on Bluetooth and connect" : "Desbloqueia-a, liga o Bluetooth e liga-a aqui") : (S.lang === "en" ? "Authorize it in this browser (Chrome, Edge, Brave)" : "Autoriza-a neste navegador (Chrome, Edge, Brave)");
+            actions = \`<button type="button" class="btn" data-action="ledger-authorize">\${ble ? (S.lang === "en" ? "Connect Ledger" : "Ligar Ledger") : (S.lang === "en" ? "Authorize Ledger" : "Autorizar Ledger")}</button>\`;
         }
 ` + b
     },
@@ -95,6 +96,69 @@ const CODE = [
 `
     },
 
+    // Descrição de cada carteira conforme o dispositivo (USB/Bluetooth/app).
+    {
+        name: "wallet-look",
+        find: /(    const out = Object\.assign\(\{\}, meta, WALLET_LOOK\[k\] \|\| \{\}\);\n)/,
+        replace: (m, a) => a + `    if (bridge.walletAvailability) { const av = bridge.walletAvailability(k); if (av && av.sub) out.sub = av.sub; }\n`
+    },
+
+    // Menu de escolha: esconde as carteiras que não existem neste dispositivo.
+    {
+        name: "chooser-filter",
+        find: /const all = S\.walletList\.filter\(x => x\.key !== "local"\)\.map\(x => W\(x\.key\)\);/,
+        replace: () => 'const all = S.walletList.filter(x => x.key !== "local" && webWallet(x.key).state !== "hidden").map(x => W(x.key));'
+    },
+
+    // ...e mostra como link (abrir na app) ou desativadas as que não se podem escolher aqui.
+    {
+        name: "chooser-card",
+        find: /    const card = \(w\) => /,
+        replace: () => '    const card = (w) => ["link", "off"].includes(webWallet(w.key).state) ? webCard(w) : cardBase(w);\n    const cardBase = (w) => '
+    },
+
+    {
+        name: "chooser-hw-empty",
+        find: /<div class="wallet-grid">\$\{hw\}<\/div>/,
+        replace: () => '${hw ? `<div class="wallet-grid">${hw}</div>` : webEmptyGroup("hw")}'
+    },
+
+    {
+        name: "chooser-br-empty",
+        find: /<div class="wallet-grid">\$\{br\}<\/div>/,
+        replace: () => '${br ? `<div class="wallet-grid">${br}</div>` : webEmptyGroup("br")}'
+    },
+
+    // Seleção inicial: nunca uma carteira indisponível neste dispositivo.
+    {
+        name: "chooser-selection",
+        find: /\n    const sel = S\.chooser\.selected;\n/,
+        replace: () => '\n    if (S.chooser.selected && !S.chooser.selected.startsWith("local:") && webWallet(S.chooser.selected).state !== "ok") S.chooser.selected = webFirstWallet();\n    const sel = S.chooser.selected;\n'
+    },
+
+    // Títulos dos grupos no telemóvel (Bluetooth / apps em vez de USB / extensões).
+    {
+        name: "chooser-hw-title",
+        find: /(<h2 id="ch-hw">)([^<]*)(<\/h2>)/,
+        replace: (m, a, t, b) => a + "${webDevice().mobile ? (S.lang === \"en\" ? \"Hardware wallets · Bluetooth\" : \"Carteiras de hardware · Bluetooth\") : " + JSON.stringify(t) + "}" + b
+    },
+    {
+        name: "chooser-br-title",
+        find: /(<h2 id="ch-br">)([^<]*)(<\/h2>)/,
+        replace: (m, a, t, b) => a + "${webDevice().mobile ? (S.lang === \"en\" ? \"Wallet apps\" : \"Apps de carteira\") : " + JSON.stringify(t) + "}" + b
+    },
+    // Botão "Continuar" sem carteira escolhida (telemóvel sem carteira disponível).
+    {
+        name: "chooser-go-label",
+        find: /(data-action="chooser-go" \$\{sel \? "" : "disabled"\}>)([^$<]*\$\{h\(chosen\.name\)\})(\$\{ICON\.arrow\})/,
+        replace: (m, a, t, b) => a + "${sel ? `" + t + "` : (S.lang === \"en\" ? \"Choose a wallet\" : \"Escolhe uma carteira\")}" + b
+    },
+    // Em ecrãs tácteis não se foca o primeiro cartão (parecia escolhido).
+    {
+        name: "chooser-focus",
+        find: /if \(btn && S\.chooser\.focus\) \{/,
+        replace: () => 'if (btn && S.chooser.focus && !webDevice().touch) {'
+    },
     // Mudar de língua: "A recarregar…" em vez de "A reiniciar…".
     {
         name: "lang-loading",
@@ -111,8 +175,57 @@ const HELPERS = `
 // VERSÃO WEB (acrescentado por tools/build-web.js)
 // ============================================================
 
+function webWallet(key) {
+    return (bridge.walletAvailability && bridge.walletAvailability(key)) || { state: "ok" };
+}
+
+function webDevice() {
+    return (bridge.device && bridge.device()) || { type: "desktop", mobile: false };
+}
+
+function webFirstWallet() {
+    const d = webDevice();
+    if (d.walletApp && webWallet(d.walletApp).state === "ok") return d.walletApp;
+    const imported = (S.imported || [])[0];
+    if (d.mobile && imported) return "local:" + imported.address;
+    if (d.mobile) return null;
+    const ok = (S.walletList || []).map(w => w.key).filter(k => k !== "local" && webWallet(k).state === "ok");
+    return ok[0] || null;
+}
+
+function webCard(w) {
+    const av = webWallet(w.key);
+    const en = S.lang === "en";
+    if (av.state === "link") {
+        return \`<a class="wallet-opt app-link" href="\${h(av.link)}" rel="noopener">\${monogram(w.key)}<span class="w-text"><span class="w-name">\${h(w.name)}<span class="w-tag">\${en ? "Open app" : "Abrir app"}</span></span><span class="w-sub">\${h(av.sub || "")}</span></span></a>\`;
+    }
+    return \`<div class="wallet-opt off" aria-disabled="true">\${monogram(w.key)}<span class="w-text"><span class="w-name">\${h(w.name)}<span class="w-tag">\${en ? "Unavailable" : "Indisponível"}</span></span><span class="w-sub">\${h(av.sub || "")}</span></span></div>\`;
+}
+
+function webEmptyGroup(group) {
+    const en = S.lang === "en";
+    const d = webDevice();
+    const where = d.os === "ios" ? (en ? "on iPhone/iPad" : "no iPhone/iPad") : d.mobile ? (en ? "in this mobile browser" : "neste navegador de telemóvel") : (en ? "in this browser" : "neste navegador");
+    const text = group === "hw"
+        ? (en ? "Hardware wallets are not available " + where + " (no USB or Bluetooth access for websites). Use an imported wallet or your wallet's app."
+              : "As carteiras de hardware não estão disponíveis " + where + " (sem acesso a USB nem Bluetooth para sites). Usa uma carteira importada ou a app da tua carteira.")
+        : (en ? "No wallet app available here." : "Nenhuma app de carteira disponível aqui.");
+    return \`<p class="hint chooser-empty">\${h(text)}</p>\`;
+}
+
 function webChooserNote(sel, chosen) {
     const en = S.lang === "en";
+    const dev = webDevice();
+    if (!sel) {
+        return dev.mobile
+            ? (en ? "On a phone: open this site inside your wallet's app, use an imported wallet" + (webWallet("ledger").state === "ok" ? " or a Ledger over Bluetooth." : ".")
+                  : "No telemóvel: abre este site dentro da app da tua carteira, usa uma carteira importada" + (webWallet("ledger").state === "ok" ? " ou uma Ledger por Bluetooth." : "."))
+            : (en ? "Choose a wallet." : "Escolhe uma carteira.");
+    }
+    if (chosen.browser && dev.mobile) {
+        return en ? "You are in the " + h(chosen.name) + " app's browser: the site connects to it directly. Approve the connection when it asks."
+                  : "Estás no browser da app " + h(chosen.name) + ": o site liga-se diretamente. Aprova a ligação quando ela pedir.";
+    }
     if (sel && sel.startsWith("local:")) {
         return en
             ? "The key is encrypted in this browser. You will type this wallet's password; it stays unlocked until you close the page, lock it or 30 min pass without use."
@@ -127,6 +240,11 @@ function webChooserNote(sel, chosen) {
         return en
             ? "Trezor Connect opens its own window (connect.trezor.io) for the PIN and to confirm. Close Trezor Suite first."
             : "O Trezor Connect abre uma janela própria (connect.trezor.io) para o PIN e para confirmar. Fecha antes o Trezor Suite.";
+    }
+    if (webWallet("ledger").ble) {
+        return en
+            ? "Ledger over Bluetooth (Nano X, Stax, Flex), experimental. Unlock it, open the Ethereum app and turn Bluetooth on; the browser asks you to pick it and the phone may ask for a pairing code."
+            : "Ledger por Bluetooth (Nano X, Stax, Flex), experimental. Desbloqueia-a, abre a app Ethereum e liga o Bluetooth; o navegador pede para a escolheres e o telemóvel pode pedir um código de emparelhamento.";
     }
     return en
         ? "Needs Chrome, Edge or Brave on a computer (WebHID). Close Ledger Live first: only one app at a time can talk to the Ledger. The browser asks you to pick the Ledger the first time."

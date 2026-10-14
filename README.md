@@ -12,7 +12,7 @@ O TopCatSwap compara as pools V2, V3 e V4 da Uniswap para o par que escolhes, mo
 |---|---|---|---|
 | Swap (V2/V3/V4), Pools, Carteiras | ✓ | ✓ | ✓ |
 | Bundles (tudo-ou-nada, privados) | ✓ (com relay) | ✓ | — |
-| Ledger | ✓ Chrome/Edge/Brave (WebHID) | ✓ USB | ✓ USB |
+| Ledger | ✓ USB: Chrome/Edge/Brave · Bluetooth: Android (Nano X, Stax, Flex) | ✓ USB | ✓ USB |
 | Trezor | ✓ Trezor Connect | ✓ (experimental) | — |
 | MetaMask, OKX, Rabby, Coinbase Wallet, Trust Wallet | ✓ direto | ✓ por página local | — |
 | Carteiras importadas (até 5, cifradas) | ✓ no navegador | ✓ no computador | ✓ |
@@ -34,6 +34,10 @@ python3 -m http.server 8080 -d dist-web
 
 - **Ledger** precisa de Chrome, Edge, Brave ou Opera (WebHID) num endereço `https://` ou `localhost`. No Linux, as regras udev da Ledger.
 - **Bundles** precisam de um *relay* porque os builders não aceitam pedidos de sites (CORS). Ver [relay/](#relay-dos-bundles).
+- **Telemóvel e tablet** (iPhone, iPad, Android; Chrome, Brave, Firefox, Safari):
+  - O ecrã adapta-se: navegação em baixo e uma só coluna.
+  - As carteiras de hardware só aparecem se o navegador as conseguir usar. No Android (Chrome, Edge ou Brave) dá para usar a Ledger Nano X, Stax ou Flex por Bluetooth (experimental). O iPhone e o Firefox não têm Bluetooth para sites.
+  - MetaMask, Trust, OKX e Coinbase: abre o site dentro da app da carteira (há um link para cada uma) ou usa uma carteira importada.
 - As definições e as carteiras importadas ficam no `localStorage` do teu navegador, neste site. Nada é enviado para servidores do TopCatSwap (não existem).
 
 ### App para Ubuntu
@@ -107,6 +111,7 @@ node tools/build-web.js
 node tests/relay.test.mjs
 npm install --no-save --prefix .ci ethers@6.13.4
 NODE_PATH=.ci/node_modules node tests/ledger-webhid.test.js
+NODE_PATH=.ci/node_modules node tests/ledger-ble.test.js
 NODE_PATH=.ci/node_modules node tests/bundles-flow.test.js
 ```
 
@@ -124,7 +129,7 @@ Software experimental, sem garantias (licença [MIT](LICENSE)). Swaps em DeFi en
 
 TopCatSwap compares the Uniswap V2, V3 and V4 pools for your pair, shows what you get from each, and swaps on the best one, signed by your wallet. Keys never leave the wallet and there is no TopCatSwap server in between: the code talks straight to the blockchain (RPC) and to your wallet.
 
-- **Web**: `node tools/build-web.js` and serve `dist-web/` (or use the GitHub Pages site). Ledger needs Chrome/Edge/Brave (WebHID). Bundles need the relay (builders do not accept requests from websites).
+- **Web**: `node tools/build-web.js` and serve `dist-web/` (or use the GitHub Pages site). Ledger: USB on desktop Chrome/Edge/Brave (WebHID), Bluetooth on Android Chrome (Nano X/Stax/Flex, experimental). On phones the layout adapts, and browser wallets open the site inside their app. Bundles need the relay (builders do not accept requests from websites).
 - **Ubuntu app**: `cd desktop && ./build-ubuntu.sh`, then `sudo apt install ./dist/TopCatSwap-1.1.2-amd64.deb`. See [desktop/INSTALL-UBUNTU.txt](desktop/INSTALL-UBUNTU.txt).
 - **Command line**: `node desktop/engine/topcatswap.en.js HELP`.
 - **Security**: see [SECURITY.md](SECURITY.md).

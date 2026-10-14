@@ -30,7 +30,9 @@ const WEB = path.join(ROOT, "web-src");
 const OUT = path.join(ROOT, "dist-web");
 
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, "desktop", "package.json"), "utf8"));
-const VERSION = pkg.version;
+// A versão web pode avançar sem a app de secretária (web-src/VERSION).
+const WEB_VERSION_FILE = path.join(ROOT, "web-src", "VERSION");
+const VERSION = fs.existsSync(WEB_VERSION_FILE) ? fs.readFileSync(WEB_VERSION_FILE, "utf8").trim() : pkg.version;
 
 const read = (p) => fs.readFileSync(p, "utf8");
 
@@ -79,7 +81,7 @@ function bundle(lang) {
         "trezor": patchTrezor(read(path.join(ENGINE, "trezor" + sfx + ".js"))),
         "wallet-bridge-web": read(path.join(WEB, "wallet-bridge-web.js")),
         "ledger-webhid": read(path.join(WEB, "ledger-webhid.js")),
-        "@ledgerhq/hw-transport-node-hid": 'module.exports = { default: require("./ledger-webhid").TransportWebHID };',
+        "@ledgerhq/hw-transport-node-hid": 'module.exports = { default: require("./ledger-webhid").LedgerTransport };',
         "@ledgerhq/hw-app-eth": 'module.exports = { default: require("./ledger-webhid").Eth, ledgerService: null };',
         "@trezor/connect": 'if (!globalThis.TrezorConnect) throw new Error("Trezor Connect ainda não carregou / not loaded yet"); module.exports = globalThis.TrezorConnect;',
         "ethers": "module.exports = globalThis.ethers;",
@@ -96,6 +98,7 @@ function bundle(lang) {
 
     let out = `/*! TopCatSwap ${VERSION} (web, ${lang}) — gerado por tools/build-web.js a partir de desktop/engine e web-src. Código aberto: ver o repositório. */\n`;
     out += read(path.join(WEB, "shims.js")) + "\n";
+    out += read(path.join(WEB, "device.js")) + "\n";
     out += `globalThis.TCS_LANG = ${JSON.stringify(lang)};\n`;
     out += `(function () {
 "use strict";
@@ -161,6 +164,9 @@ function page(lang, hashes) {
     html = html.replace(new RegExp(`<script src="${app.replace(".", "\\.")}"></script>`), scripts);
     if (html === before) throw new Error("index: script da interface não encontrado");
 
+    html = html.replace('<meta name="viewport" content="width=device-width, initial-scale=1">', '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<meta name="theme-color" content="#081222">');
+    if (!html.includes("viewport-fit=cover")) throw new Error("index: viewport não encontrado");
+
     html = html.replace("<title>", '<meta name="description" content="TopCatSwap — swaps na Uniswap V2/V3/V4 com Ledger, Trezor ou extensão do navegador. Código aberto, sem servidor.">\n<link rel="icon" href="logo-mark.png">\n<title>');
 
     return html;
@@ -187,7 +193,7 @@ function main() {
     files["topcatswap-web.en.js"] = bundle("en");
     files["app.js"] = patchRenderer(read(path.join(RENDERER, "app.js")), "pt");
     files["app.en.js"] = patchRenderer(read(path.join(RENDERER, "app.en.js")), "en");
-    files["styles.css"] = read(path.join(RENDERER, "styles.css"));
+    files["styles.css"] = read(path.join(RENDERER, "styles.css")) + "\n" + read(path.join(WEB, "mobile.css"));
 
     for (const [name, content] of Object.entries(files)) fs.writeFileSync(path.join(OUT, name), content);
 
